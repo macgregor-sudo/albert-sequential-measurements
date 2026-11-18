@@ -1,0 +1,38 @@
+Third-party and earlier code in this repository
+
+Physlib, https://github.com/leanprover-community/physlib, commit 08a6c1b5b8e6db340547142c3f7047635128c786,
+Apache-2.0. The full licence text is the file LICENSE of this repository (the Apache-2.0 text, byte-identical to
+Physlib's LICENSE at that commit); Physlib has no NOTICE file. Copyright holder as evidenced by the headers of the
+upstream files: Tom Ole Diem ("Copyright (c) 2026 Tom Ole Diem. All rights reserved.", "Authors: Tom Ole Diem").
+The upstream copyright notice and a statement of the changes are kept in the header of each adapted file.
+
+- RealJordanFundamental.lean adapts 13 declarations of
+  PhyslibAlpha/ProbabilisticTheory/JordanOrderUnit/Quadratic/Fundamental.lean (11 proof bodies token-identical,
+  two endpoints renamed; upstream git blob 37fa7e0e at the commit above).
+- JordanPowerAssociativity.lean adapts all eight declarations of
+  PhyslibAlpha/ProbabilisticTheory/JordanOrderUnit/Power/Associative.lean; the proof bodies are identical after
+  renaming jpow_* to elementPower_*, Module.End.mul_apply to mul_apply_eq_comp and E to P.Element (upstream git
+  blob 2b455936 at the commit above). No upstream module is imported.
+- RealJordanOperators.lean adapts the definitions mulLeft, quadRep, innerDerivation, jordanTriple and the lemmas
+  mulLeft_apply, quadRep_apply, innerDerivation_apply, innerDerivation_swap, jordanTriple_outer_comm,
+  jordanTriple_diag of PhyslibAlpha/ProbabilisticTheory/JordanOrderUnit/Operator.lean and Quadratic/Triple.lean
+  (definitions identical up to names and notation; innerDerivation_swap and jordanTriple_outer_comm with
+  token-identical proofs). The comparison was made against an October 2026 Physlib snapshot with the same author
+  header, not against the files at the commit above.
+- UnitalJordanProduct.lean, JordanProductQuadratic.lean and EuclideanJordanForm.lean follow Physlib's conventions;
+  a declaration-body scan of every development file against the Physlib sources found matching bodies only in the
+  three files above.
+
+Thanks to Tom Ole Diem and the Physlib contributors.
+
+“If I have seen further it is by standing on the sholders of Giants.” — Isaac Newton, letter to
+Robert Hooke, 1676.
+
+Earlier registered code by the same contributor: Palomar entry PALOMAR-2026-10-16-000013,
+https://github.com/macgregor-sudo/compact-albert-recognition, commit 40d3b344180d9ddb78aaa2876873377c1e631515,
+Apache-2.0. Glennie/Native.lean is that entry's Glennie/Native.lean with two Nat instances and Albert.extExplicit
+removed, one proof shortened and the header replaced; the other fourteen Glennie/ modules descend from a later
+version of the same code.
+
+Mathlib v4.36.0 (commit fc4f59e577feb1a4956671bc04ac18aaaf8cd842, Apache-2.0) is a package dependency pinned in
+lakefile.toml and lake-manifest.json; no Mathlib file is copied.

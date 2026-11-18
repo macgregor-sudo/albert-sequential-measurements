@@ -1,0 +1,25 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "AlbertChallenge.no_representation_of_generates",
+    "AlbertChallenge.linear_separator_of_generates",
+    "AlbertChallenge.seven_steps_exclude",
+    "AlbertChallenge.six_step_model",
+    "AlbertChallenge.least_separating_length",
+    "AlbertChallenge.fourPoint_criterion",
+    "AlbertChallenge.quadrupleM_spec",
+    "AlbertChallenge.quadrupleS_spec",
+    "AlbertChallenge.three_atoms",
+    "AlbertChallenge.zero_invariant_model",
+    "AlbertChallenge.albert_criterion",
+    "AlbertChallenge.isAtom_iff_primitive"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

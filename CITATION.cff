@@ -1,0 +1,80 @@
+# The CFF schema requires the key "authors"; it lists the human contributor only (AI systems are
+# named in the abstract and in formalization.yaml under automation).
+cff-version: 1.2.0
+message: "If you use this formalization, please cite it as below."
+title: "On sequential ideal measurements in the exceptional Jordan algebra: Lean 4 formalization"
+type: software
+authors:
+  - family-names: "MacGregor"
+    given-names: "Robert R."
+    orcid: "https://orcid.org/0009-0003-1734-8054"
+repository-code: "https://github.com/macgregor-sudo/albert-sequential-measurements"
+version: "v1.0.0"
+date-released: "2026-11-18"
+license: Apache-2.0
+keywords:
+  - Lean 4
+  - Mathlib
+  - Albert algebra
+  - exceptional Jordan algebra
+  - sequential measurements
+  - Lüders rule
+abstract: >-
+  Lean 4 and Mathlib formalization of results of the papers "On sequential ideal measurements in the
+  exceptional Jordan algebra" and "Finite certificates for sequential measurements in the
+  exceptional Jordan algebra". The Albert algebra J = H3(O) is the 27-dimensional real Jordan
+  algebra of 3x3 Hermitian octonionic matrices. An atom is an idempotent of trace one (a pure
+  state). Its ideal yes-no test updates a state by the Lueders rule, and a word of outcomes has as
+  probability the trace of the updated, unnormalised state. If finitely many atoms generate J, from
+  any state no sequential projective representation on a real, complex or quaternionic Hilbert space
+  reproduces all their word probabilities, and a finite linear inequality valid in every such
+  representation fails by a positive margin from every state. Not generating J is equivalent to
+  lying in a special unital subalgebra, and to one family of projections on C^6 or C^24 serving
+  every state. For four generating atoms, from the maximally mixed state a representation on C^12
+  reproduces every word of length at most six, but none every word of length at most seven. A
+  polynomial A in thirteen traces is nonnegative for four atoms and positive exactly when they
+  generate J; its maximum is 4/19683, and when A = 0 every state has a representation on C^6. Three
+  atoms never generate J, and every state has a representation on C^3. The atoms are exactly the
+  primitive idempotents. Except for the adapted code listed in docs/ATTRIBUTION.md (declarations
+  adapted from Physlib, and modules adapted from the contributor's Palomar entry
+  PALOMAR-2026-10-16-000013), all mathematics, proofs, text and Lean code were produced by Claude
+  Fable 5.2, Claude Opus 5.5, GPT-6.2 Astra, GPT-6.2 Sol, Gemini Carbon and Gemini Hydrogen; no
+  human has reviewed the mathematics.
+references:
+  - type: software
+    title: "Finite Observations and Recognition of the Compact Albert Algebra (Palomar PALOMAR-2026-10-16-000013)"
+    authors: [{family-names: "MacGregor", given-names: "Robert R."}]
+    repository-code: "https://github.com/macgregor-sudo/compact-albert-recognition"
+    commit: "40d3b344180d9ddb78aaa2876873377c1e631515"
+    license: Apache-2.0
+  - type: software
+    title: "tight-39-code (Palomar PALOMAR-2026-10-29-000034)"
+    authors: [{family-names: "MacGregor", given-names: "Robert R."}]
+    repository-code: "https://github.com/macgregor-sudo/tight-39-code"
+    commit: "46f01c135aacea9003435e7f1dc99b4a69568e83"
+    license: Apache-2.0
+  - type: software
+    title: "albert-frame-triple-invariants (Palomar PALOMAR-2026-09-13-000001)"
+    authors: [{family-names: "MacGregor", given-names: "Robert R."}]
+    repository-code: "https://github.com/macgregor-sudo/albert-frame-triple-invariants"
+    commit: "dd06ef5d423a0e4a5d814d2c221e999b98887ee1"
+    license: Apache-2.0
+  - type: software
+    title: "Physlib"
+    authors: [{family-names: "Diem", given-names: "Tom Ole"}, {name: "Physlib contributors"}]
+    repository-code: "https://github.com/leanprover-community/physlib"
+    commit: "08a6c1b5b8e6db340547142c3f7047635128c786"
+    license: Apache-2.0
+  - type: article
+    title: "Finite certificates for sequential measurements in the exceptional Jordan algebra"
+    authors: [{family-names: "MacGregor", given-names: "Robert R."}]
+    notes: "LaTeX source: companion/macgregor-finite-certificates.tex in the source archive of the Hexagon record hexagon:2611.00620."
+    license: CC-BY-4.0
+preferred-citation:
+  type: article
+  title: "On sequential ideal measurements in the exceptional Jordan algebra"
+  authors:
+    - family-names: "MacGregor"
+      given-names: "Robert R."
+  url: "https://hexagonmath.org/abs/2611.00620"
+  license: CC-BY-4.0

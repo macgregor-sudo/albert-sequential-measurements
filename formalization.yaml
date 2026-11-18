@@ -1,0 +1,252 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# Palomar metadata, formalization.yaml v0.4.
+version: "v0.4"
+
+project:
+  name: "On sequential ideal measurements in the exceptional Jordan algebra"
+  description: >-
+    The Albert algebra J = H3(O) is the 27-dimensional real Jordan algebra of 3x3 Hermitian
+    octonionic matrices. An atom is an idempotent of trace one (a pure state). Its ideal yes-no test
+    updates a state by the Lueders rule, and a word of outcomes has as probability the trace of the
+    updated, unnormalised state. If finitely many atoms generate J, from any state no sequential
+    projective representation on a real, complex or quaternionic Hilbert space reproduces all their
+    word probabilities, and a finite linear inequality valid in every such representation fails by a
+    positive margin from every state. Not generating J is equivalent to lying in a special unital
+    subalgebra, and to one family of projections on C^6 or C^24 serving every state. For four
+    generating atoms, from the maximally mixed state a representation on C^12 reproduces every word
+    of length at most six, but none every word of length at most seven. A polynomial A in thirteen
+    traces is nonnegative for four atoms and positive exactly when they generate J; its maximum is
+    4/19683, and when A = 0 every state has a representation on C^6. Three atoms never generate J,
+    and every state has a representation on C^3. The atoms are exactly the primitive idempotents.
+  authors:
+    - name: "Robert R. MacGregor"
+      orcid: "0009-0003-1734-8054"
+  responsible_maintainers:
+    - "Robert R. MacGregor"
+  license: "Apache-2.0"
+
+repository:
+  role: "substantive-development"
+
+classification:
+  arxiv: ["math-ph", "quant-ph"]
+  msc2020: ["17C40", "81P15", "81P16", "17C90", "46L70", "68V20"]
+
+sources:
+  - title: "On sequential ideal measurements in the exceptional Jordan algebra"
+    type: paper
+    relationship: formalizes
+    authors: ["Robert R. MacGregor"]
+    author_endorsement: participated
+    id: "https://hexagonmath.org/abs/2611.00620"
+    note: >-
+      The core paper. Its text, mathematics and proofs were produced by the same AI systems as the Lean
+      code (see automation). The twelve compared theorems formalize Theorem 4.1 (the Albert criterion;
+      the printed theorem follows from compared theorems 1, 2 and 11 and the non-compared
+      albertJordanHom_eq_zero), Corollary 4.16(a), Theorem 6.1(a), Proposition 6.2, Theorem 5.5(i) and
+      (iii), Proposition 5.12 (bound and value), Proposition 5.1, the configuration S of Section 6 and
+      the paragraph on A = 0 after Corollary 5.11, and the characterisation of atoms in Section 3.
+      Further results with margin notes are proved without comparison, some in a narrower form; results
+      proved by hand only include Theorem 3.3(b), Definition 4.10, Theorem 4.11, Corollary 4.13,
+      Proposition 4.14(b), (c), Corollary 4.16(b), Lemma B.2, Lemma 6.6, Propositions 6.13 and 6.21 and
+      Proposition 6.17(b), (c). The README table "Status of every numbered statement" gives the status
+      of each numbered statement, matching the paper's margin notes and its appendix "Formalization".
+  - title: "Finite certificates for sequential measurements in the exceptional Jordan algebra"
+    type: paper
+    relationship: formalizes
+    authors: ["Robert R. MacGregor"]
+    author_endorsement: participated
+    note: >-
+      The companion paper: its LaTeX source is companion/macgregor-finite-certificates.tex in the source
+      archive of the core paper's Hexagon record. It was produced in the same way as the core
+      paper. No compared theorem is taken
+      from it. Formalized without comparison: Theorems 2.2, 2.4 (for Lean's own functional), 4.2,
+      Propositions 2.5, 2.6 (for Lean's own functional), 3.1, 4.3, 6.1, 6.2, Corollary 3.3 and Lemmas
+      A.1-A.3; in a narrower form Lemmas 2.3 and 4.1, Proposition 3.2 and Corollary 4.4. Not formalized:
+      Lemmas 2.1 and 6.3, Propositions 2.7, 4.7, 5.1 (only a deterministic identity behind it), 6.4,
+      Corollaries 4.5, 4.8, 6.5, 6.6 and the three remarks. The README table gives each status.
+  - title: "On a certain algebra of quantum mechanics"
+    type: paper
+    relationship: background
+    authors: ["A. A. Albert"]
+    author_endorsement: n/a
+    id: "doi:10.2307/1968118"
+    note: "Ann. of Math. (2) 35 (1934) 65-73. Defines the exceptional algebra H3(O) and shows it is not special; the setting of every statement here."
+  - title: "On an algebraic generalization of the quantum mechanical formalism"
+    type: paper
+    relationship: background
+    authors: ["P. Jordan", "J. von Neumann", "E. Wigner"]
+    author_endorsement: n/a
+    id: "doi:10.2307/1968117"
+    note: "Ann. of Math. 35 (1934) 29-64. Classification of finite-dimensional formally real Jordan algebras; source of the Jordan-algebraic framework used throughout."
+  - title: "Some identities valid in special Jordan algebras but not valid in all Jordan algebras"
+    type: paper
+    relationship: background
+    authors: ["C. M. Glennie"]
+    author_endorsement: n/a
+    id: "doi:10.2140/pjm.1966.16.47"
+    note: "Pacific J. Math. 16 (1966) 47-59. Glennie's identity, whose polarised form is related to the four-point invariant in core Theorem F.6 (AppF.thm_glennie)."
+  - title: "Ueber die Zustandsaenderung durch den Messprozess"
+    type: paper
+    relationship: background
+    authors: ["G. Lueders"]
+    author_endorsement: n/a
+    id: "doi:10.1002/andp.19504430510"
+    note: "Ann. Phys. (Leipzig) (6) 8 (1950) 322-328; English translation doi:10.1002/andp.20065180904. The update rule rho -> P rho P whose Jordan form U_p defines the word probabilities."
+  - title: "A Taste of Jordan Algebras"
+    type: book
+    relationship: background
+    authors: ["K. McCrimmon"]
+    author_endorsement: n/a
+    note: "Universitext, Springer, New York, 2004. Standard reference for the quadratic representation, Peirce decompositions and speciality used in the definitions and supporting modules."
+  - title: "Analysis on Symmetric Cones"
+    type: book
+    relationship: background
+    authors: ["J. Faraut", "A. Koranyi"]
+    author_endorsement: n/a
+    note: "Oxford Mathematical Monographs, 1994. Standard reference for Euclidean Jordan algebras (spectral resolution, Peirce decomposition, trace), the subject of the general Jordan-algebra modules."
+related_formalizations:
+  - id: "https://github.com/macgregor-sudo/compact-albert-recognition/tree/40d3b344180d9ddb78aaa2876873377c1e631515"
+    relationship: adapts
+    note: "PALOMAR-2026-10-16-000013 v1, same contributor. The fifteen modules under Glennie/ (compact octonions and Albert algebra as pairs of quaternions, product, trace, elementary laws, real conjugation, triality transport, automorphism compactness, diagonalisation and the square cone) are adapted from it; Glennie/Native.lean is the registered Glennie/Native.lean with two instances and one auxiliary declaration removed and one proof shortened, and the other fourteen descend from a later private version of the same code by the same contributor. None of that entry's compared conclusions is used as a hypothesis here, and no statement there is a compared statement here. Its Challenge defines the same compact octonions (same Cayley-Dickson convention) and Albert algebra as this Challenge, which defines them again because a Challenge may import only Mathlib."
+  - id: "https://github.com/leanprover-community/physlib/tree/08a6c1b5b8e6db340547142c3f7047635128c786"
+    relationship: adapts
+    note: "Physlib (Apache-2.0), PhyslibAlpha/ProbabilisticTheory/JordanOrderUnit (Quadratic/Fundamental.lean, Power/Associative.lean, Operator.lean, Quadratic/Triple.lean); not a Palomar entry. Files by Tom Ole Diem. RealJordanFundamental.lean adapts 13 declarations of Quadratic/Fundamental.lean (the fundamental formula of the quadratic representation, by cyclic polarisation and derivation arguments; ambient class weakened to NonUnitalNonAssocCommRing, local operator definitions, namespaces and two endpoint names changed, proof bodies otherwise unchanged). JordanPowerAssociativity.lean adapts the 8 declarations of Power/Associative.lean (proof bodies identical after renaming). RealJordanOperators.lean adapts the definitions mulLeft, quadRep, innerDerivation, jordanTriple and six lemmas of Operator.lean and Quadratic/Triple.lean; for these two files the comparison was made against a local Physlib snapshot of October 2026, not the pinned commit. Each adapted file keeps the upstream copyright notice; the root LICENSE is the Apache-2.0 text, Physlib's licence; details are in THIRD_PARTY_NOTICES and docs/ATTRIBUTION.md. UnitalJordanProduct, JordanProductQuadratic and EuclideanJordanForm follow its conventions without copying a declaration."
+  - id: "https://github.com/macgregor-sudo/albert-frame-triple-invariants/tree/dd06ef5d423a0e4a5d814d2c221e999b98887ee1"
+    relationship: other
+    note: "PALOMAR-2026-09-13-000001 v1, same contributor; split Albert algebra over a field of characteristic zero. No file is used here; it is an ancestor of code in PALOMAR-2026-10-16-000013 (general cubic-trace lemma), from which this repository adapts other files. No statement there is a statement here."
+  - id: "https://github.com/macgregor-sudo/tight-39-code/tree/46f01c135aacea9003435e7f1dc99b4a69568e83"
+    relationship: other
+    note: "PALOMAR-2026-10-29-000034 v1, same contributor; local geometry of the tight 39-point code in OP2. Shares the Glennie ancestry; no file of it is used here and no statement there is a statement here."
+  - id: "https://github.com/ehrlich-b/sequential-products-lean/tree/9c6d92f5fc222d9d1646ae6044dcec053900ca83"
+    relationship: independent
+    note: "B. Ehrlich, ehrlich-b/sequential-products-lean, Apache-2.0; related work by another author, no code used. PALOMAR-2026-08-22-000006 v1 (TwistNormalForm.real_classification, TwistNormalForm.complex_classification: sequential products in van de Wetering's sense on H_N(R) are the Lueders product, on H_N(C) with N >= 3 they have the twist normal form) and PALOMAR-2026-08-21-000009 v1 (AlbertPowerAssoc.jpow_mul_jpow: Albert's power-associativity theorem for commutative Jordan rings carrying a real-module structure), both at this commit; at 3c0e870eb2acb1320b62e62c791c9365f7e5260b the same repository is registered as PALOMAR-2026-08-21-000001 v1 (WignerReal.exists_isometry_of_transProbPreserving, the real case of Wigner's theorem). The classifications describe the update on a given algebra; the statements here concern which statistics of given ideal tests under the Lueders update a Hilbert space reproduces. This repository proves power associativity of its general Jordan products (JordanPowerAssociativity, adapted from Physlib), not from this entry. Cited in the core paper."
+  - id: "https://github.com/ehrlich-b/euclidean-jordan/tree/58fb886dceab0a3439c9ba3fca37f01073f2a0a4"
+    relationship: independent
+    note: "B. Ehrlich, ehrlich-b/euclidean-jordan, Apache-2.0; related work by another author, no code used. At this commit PALOMAR-2026-08-23-000005 v1 (KoecherAlfsenShultz.orderIso_preservesJordan: a unital linear order isomorphism of a Euclidean Jordan algebra is a Jordan automorphism) and PALOMAR-2026-08-23-000006 v1 (JordanSpectral.spectral_resolution_bilinear); at a0077822f037d5de7bdcbf3f9f498cc00f361a4a PALOMAR-2026-08-29-000001 v1 (JordanTraceForm.traceForm_comm, traceForm_assoc, traceForm_self_nonneg, traceForm_self_eq_zero_iff); at a83407e4dbf73c77c31a2291c02f20b37a5ebbaf PALOMAR-2026-08-29-000008 v1 (JordanFramePeirce.frameBlock_isInternal, finrank_frameBlock_diag: the Peirce decomposition relative to a Jordan frame). This repository proves its own spectral resolution and Peirce decomposition (JordanSpectralResolution, JordanPeirceFusion) in a different setting. Cited in the core paper."
+  - id: "https://github.com/ehrlich-b/composition-algebras/tree/98d4437ce1bfd8d042b8383e0cfe28ec3e595eee"
+    relationship: independent
+    note: "B. Ehrlich, ehrlich-b/composition-algebras, Apache-2.0; related work by another author, no code used. PALOMAR-2026-08-29-000018 v1 (HurwitzClassification.hurwitz_classification: a nontrivial finite-dimensional Euclidean composition algebra over R is isomorphic to R, C, the quaternions or the octonions, with all four constructed); at e37e22b0571a170ba18a0d8db29fe2a857906b92 PALOMAR-2026-08-29-000015 v1 (HurwitzDimension.finrank_eq_one_or_two_or_four_or_eight). This repository constructs its own octonions (Glennie/, adapted from PALOMAR-2026-10-16-000013, and the Challenge's Cayley-Dickson definition) and uses neither theorem. Cited in the core paper."
+  - id: "https://github.com/stalex444/herstein-jordan-homomorphisms/tree/34dffa8aace3a1b565b11cbb561db3a58fa203da"
+    relationship: independent
+    note: "S. Alexander, stalex444/herstein-jordan-homomorphisms, MIT; related work by another author, no code used. PALOMAR-2026-11-11-000008 v1 (JordanPrime.jordan_onto_prime and five further theorems: Herstein's theorem, in Smiley's forms, that a Jordan homomorphism of associative rings onto a prime ring is a homomorphism or an anti-homomorphism, with the Jacobson-Rickart domain theorem and examples for each hypothesis). Both concern Jordan homomorphisms; the statement here (albertJordanHom_eq_zero) is that every Jordan homomorphism from the Albert algebra J into an associative algebra is zero, whose source is not an associative ring, and it uses no result of that entry."
+  - id: "doi:10.5281/zenodo.21482444"
+    relationship: independent
+    note: "M. J. Soares, The Albert algebra in Lean 4: Jordan identity and non-speciality, version 1.0.0, Zenodo, 22 July 2026, repository markkasaurus/albert-algebra-lean, Apache-2.0; not a Palomar entry; no code used. It proves the Jordan identity for H3(O), its real dimension 27, Glennie's identity in symmetrisations of associative algebras and an explicit violation in H3(O). This repository proves the Jordan identity of its own encoding of H3(O) (NativeAnalysis.jordan_identity) and that every Jordan homomorphism from J into an associative algebra is zero (albertJordanHom_eq_zero) independently, by another route. Cited in the core paper."
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "Claude Fable 5.2"
+        - "Claude Opus 5.5"
+        - "GPT-6.2 Astra"
+        - "GPT-6.2 Sol"
+        - "Gemini Carbon"
+        - "Gemini Hydrogen"
+      note: >-
+        AI agents produced all mathematics, proofs, text and Lean code of the two papers and of this
+        repository, apart from the adapted code listed under related_formalizations. The AI statement of
+        the core paper reads: "All text, mathematics and proofs herein, and all Lean 4 code apart from the
+        adapted files noted in Appendix G, were produced by Claude Fable 5.2, Claude Opus 5.5, GPT-6.2
+        Astra, GPT-6.2 Sol, Gemini Carbon and Gemini Hydrogen, and the main theorems on the Albert
+        algebra are machine-checked in Lean. Except for this statement, all content herein was
+        generated by AI and has not been understood without AI interpretation."
+        Here "the main theorems" are the twelve statements of Challenge.lean.
+      cost:
+        hardware: "local machine"
+    - method: "agent"
+      note: >-
+        AI review of Lean code: modules were reviewed by an AI agent other than the one that wrote them,
+        except those listed under review.notes. No human review.
+    - method: "other"
+      note: >-
+        Pinned Lean compilation. Lean v4.36.0 with the unmodified Mathlib v4.36.0
+        (fc4f59e577feb1a4956671bc04ac18aaaf8cd842), run locally under a memory-limited launcher. Build
+        of record on the working copy (Lean files token-identical to this repository's except for
+        thirteen build-order imports, comments and docstrings): 551 source files, exit 0, 5,327 s, largest
+        memory use 7.46 GiB (RobustCert.RobustM). On this repository's files: a clean lake build of
+        Solution and Challenge, exit 0, 378 s, 3.2 GiB; full build of all 524 modules: exit 0, 3,484 s with three jobs on three cores, largest memory use 7.30 GiB (RobustCert.RobustM). Comparator in export mode, with NanoDa and the Lean kernel, on
+        this repository's files: accepts Solution for all twelve theorems of the Challenge; rejects a
+        copy of the Challenge used as the solution (illegal axiom sorryAx).
+
+review:
+  status: "partially agent-reviewed; no human review"
+  notes: >-
+    The modules of the length-seven proof (LengthSeven, LemmaB, TableModel, Uniform), MatchingModels,
+    FiveTest, HorizonFive, RobustCert, Ends, AppF, BlockA, BlockB, Pending/GlennieGeneral, Joins, the
+    statement layer (Challenge, ChallengeDefs, Solution, Bridge), the proof-side changes made to port the
+    code to Lean v4.36.0, the conversion of 54 files to the module system and the licence headers had no
+    independent review at the release commit. Every compared theorem passes through unreviewed bridge
+    files, and statements (3), (4), (5), (9), (10) and (11) also rest on unreviewed modules. No human
+    has reviewed the mathematics, the proofs or the faithfulness of the statements.
+
+status:
+  scope: >-
+    Comparator compares the twelve theorems of Challenge.lean (namespace AlbertChallenge) with
+    Solution.lean; they formalize the core paper's Albert criterion, the length-seven exclusion and
+    six-step model with L_min = 7, the four-point criterion with the maximiser M and the rational quadruple S, the
+    models for three atoms and for vanishing invariant, and the identification of atoms with primitive
+    idempotents. The repository also proves, without comparison and sometimes in a narrower form, the
+    other results of both papers that carry margin notes; the README table "Status of every numbered
+    statement" gives the status of each of the 96 numbered statements of the core paper and the 30 of the
+    companion. Not formalized: the results the papers prove by hand only (among them core Theorems 3.3(b)
+    and 4.11 and Lemma 6.6) and the remarks and examples other than core Remark 6.18.
+  permitted_axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  proof_axiom_audit: >-
+    #print axioms gives [propext, Classical.choice, Quot.sound] for the twelve Solution theorems and
+    every declaration named in the two papers: 230 names, on the working copy's build and on a full
+    build of this repository's files.
+  challenge_placeholders: "The twelve theorems of Challenge.lean end in sorry; Solution.lean does not import Challenge.lean."
+  main_results:
+    - name: "AlbertChallenge.no_representation_of_generates"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.linear_separator_of_generates"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.seven_steps_exclude"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.six_step_model"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.least_separating_length"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.fourPoint_criterion"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.quadrupleM_spec"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.quadrupleS_spec"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.three_atoms"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.zero_invariant_model"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.albert_criterion"
+      comparator_config: "comparator.json"
+    - name: "AlbertChallenge.isAtom_iff_primitive"
+      comparator_config: "comparator.json"
+
+fidelity:
+  divergences: >-
+    Atoms are defined as idempotents of trace one (equivalent to the paper's primitive idempotents by
+    the compared isAtom_iff_primitive), special subalgebras by embeddings into finite complex Hermitian
+    matrices rather than operators on a Hilbert space, quaternionic Hilbert spaces as real Hilbert
+    spaces with a right quaternion action and a quaternion-valued inner product, and representation
+    states as linear functionals on all bounded operators over any RCLike field (for the real field not
+    required to be symmetric, which changes no word value because word operators are self-adjoint).
+    Relative to the printed statements, albert_criterion fixes d in {6, 24} and one family of
+    projections for all states but restricts its third condition to carriers in Lean's lowest universe,
+    least_separating_length restricts carriers to that universe, linear_separator_of_generates and
+    least_separating_length do not mention algebraic models, no_representation_of_generates allows any
+    rho in J, and headline hypotheses use Generates where the paper writes A > 0 (equivalent by
+    fourPoint_criterion). The compared statements omit parts of the printed results that are proved
+    without comparison or by hand: the rank and subalgebra data of three_atoms, zero_invariant_model and
+    six_step_model, uniqueness of the maximiser in quadrupleM_spec, parts (ii) and (iv) of the four-point
+    theorem, and the margin of Theorem 6.1(b); the Challenge does not state the Jordan identity for
+    jordanMul, which the development proves.
+
+acknowledgements: >-
+  Built on Lean 4 and Mathlib. The Glennie/ layer is adapted from the contributor's Palomar entry
+  PALOMAR-2026-10-16-000013, and three files adapted from four Physlib files (thanks to Tom Ole Diem and the Physlib
+  contributors); both are listed in docs/ATTRIBUTION.md and THIRD_PARTY_NOTICES.
