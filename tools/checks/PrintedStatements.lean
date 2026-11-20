@@ -1,0 +1,28 @@
+module
+
+import Bridge.UniverseCriterion
+import Bridge.EJAFixedUnitary
+import CompanionSignedInvariant
+import ComplexGramTraceExcess
+import FourTraceWordRelation
+import FixedUnitaryMatrix
+import GeneratedPrimitiveTests
+import RankThreeCanonicalTrace
+import NativeChronologicalComposition
+open AlbertSequential
+
+#print axioms AlbertChallenge.Bridge.printed_albert_criterion
+#print axioms AlbertChallenge.Bridge.no_classI_of_generates
+#print axioms FixedUnitary.exists_projective_of_fixedUnitary
+#print axioms UnitalJordanProduct.isBPrimitiveMenu_iff_tests
+#print axioms UnitalJordanProduct.isBPrimitiveTest_of_rank_le_three
+#print axioms UnitalJordanProduct.canonical_fourPrimitive_trace_relation
+#print axioms native_chronological_composition
+#print axioms complex_dyad_trace_relation_excess
+#print axioms matching_four_words_trace_relation
+#print axioms NativeAnalysis.signedThreeInvariant_zero_of_atom
+#print axioms NativeAnalysis.signedThreeInvariant_scale
+#print axioms AlbertChallenge.Bridge.proper_iff_hasClassIModel
+#print axioms AlbertSequential.nativeOperatorSpecial_iff_proper
+#print axioms AlbertSequential.FixedUnitary.exists_projective_of_fixedUnitary_noSwitch
+#print axioms AlbertSequential.UnitalJordanProduct.exists_projective_of_interleaved

@@ -32,23 +32,33 @@ namespace AlbertSequential.MatchingModels
 
 open AlbertSequential
 
-/-- Detailed witness form of `prop:cer:universalsix`: constructs an explicit `ℂ¹²` block
-mixture model `(Pplus ⊕ Pminus, λ (I_6 / 6) ⊕ (1 - λ) (I_6 / 6))` with `0 < λ < 1`,
-whose two `6 × 6` Hermitian idempotent blocks have trace `2` and realize the quaternionic-window
-endpoint quadruples `qPlus`, `qMinus` from `prop_cer_quatpair_c`, matching
-`nativeWordProbability p ((1 / 3 : ℝ) • albertUnit)` on all words of length `≤ 6`. -/
+/-- Detailed witness form of `prop:cer:universalsix`: there are atoms `qPlus i`, `qMinus i` of
+the standard quaternionic window and `0 < λ < 1` such that the `ℂ¹²` model `M` is *the* block
+mixture `c12BlockMixtureModel Pplus Pminus … λ …`, i.e. projections `Pplus i ⊕ Pminus i` with
+density matrix `λ (I_6 / 6) ⊕ (1 - λ) (I_6 / 6)`, where `Pplus = ι_ℍ ∘ qPlus` and
+`Pminus = ι_ℍ ∘ qMinus` (`quatProj6`, the symplectic embedding of the window into
+`6 × 6` complex matrices) are Hermitian idempotents of trace `2`. This `M` is the `λ`-mixture of
+the two quaternionic tables and matches `nativeWordProbability p ((1 / 3 : ℝ) • albertUnit)` on
+all words of length `≤ 6`. -/
 theorem prop_cer_universalsix_witness (p : Fin 4 → Albert) (hp : ∀ i, IsAtom (p i))
     (hA : 0 < fourPointInvariant p) :
     ∃ (lam : ℝ) (qPlus qMinus : Fin 4 → Albert)
+      (hqp_std : ∀ i, qPlus i ∈ standardQuaternionicWindow.subalgebra.carrier)
+      (hqm_std : ∀ i, qMinus i ∈ standardQuaternionicWindow.subalgebra.carrier)
       (Pplus Pminus : Fin 4 → Matrix (Fin 6) (Fin 6) ℂ)
+      (hPplus : ∀ i, (Pplus i).IsHermitian ∧ Pplus i * Pplus i = Pplus i ∧
+        Matrix.trace (Pplus i) = 2)
+      (hPminus : ∀ i, (Pminus i).IsHermitian ∧ Pminus i * Pminus i = Pminus i ∧
+        Matrix.trace (Pminus i) = 2)
+      (hlam : lam ∈ Set.Icc (0 : ℝ) 1)
       (M : HilbertProjectiveData (Fin 4) ℂ (EuclideanSpace ℂ (Fin 12))),
       0 < lam ∧ lam < 1 ∧
       (∀ i, IsAtom (qPlus i)) ∧
-      (∀ i, qPlus i ∈ standardQuaternionicWindow.subalgebra.carrier) ∧
       (∀ i, IsAtom (qMinus i)) ∧
-      (∀ i, qMinus i ∈ standardQuaternionicWindow.subalgebra.carrier) ∧
-      (∀ i, (Pplus i).IsHermitian ∧ Pplus i * Pplus i = Pplus i ∧ Matrix.trace (Pplus i) = 2) ∧
-      (∀ i, (Pminus i).IsHermitian ∧ Pminus i * Pminus i = Pminus i ∧ Matrix.trace (Pminus i) = 2) ∧
+      Pplus = quatProj6 standardQuaternionicWindow qPlus hqp_std ∧
+      Pminus = quatProj6 standardQuaternionicWindow qMinus hqm_std ∧
+      M = c12BlockMixtureModel Pplus Pminus (fun i => (hPplus i).1) (fun i => (hPplus i).2.1)
+        (fun i => (hPminus i).1) (fun i => (hPminus i).2.1) lam hlam ∧
       (∀ w : Word (Fin 4),
         M.probability w =
           lam * nativeWordProbability qPlus ((1 / 3 : ℝ) • albertUnit) w +
@@ -100,10 +110,10 @@ theorem prop_cer_universalsix_witness (p : Fin 4 → Albert) (hp : ∀ i, IsAtom
     rw [hprob_mix w]
     exact (nativeWordProbability_e3_affine_le_six hp hqp_atom hqm_atom hA
       ho_pair hR_pair ht1 ht2 ht3 w hw).symm
-  exact ⟨lam, qPlus, qMinus, Pplus, Pminus, M, hlam0, hlam1,
-    hqp_atom, hqp_std, hqm_atom, hqm_std,
+  exact ⟨lam, qPlus, qMinus, hqp_std, hqm_std, Pplus, Pminus,
     fun i => ⟨hPplus_herm i, hPplus_idem i, hPplus_tr i⟩,
     fun i => ⟨hPminus_herm i, hPminus_idem i, hPminus_tr i⟩,
+    hlam_icc, M, hlam0, hlam1, hqp_atom, hqm_atom, rfl, rfl, rfl,
     hprob_mix, hprob_match⟩
 
 /-- **`prop:cer:universalsix` (`ℂ¹²` form)**: for any four atoms `p` with
@@ -114,7 +124,7 @@ theorem prop_cer_universalsix_c12 (p : Fin 4 → Albert) (hp : ∀ i, IsAtom (p 
     ∃ M : HilbertProjectiveData (Fin 4) ℂ (EuclideanSpace ℂ (Fin 12)),
       ∀ w : Word (Fin 4), w.length ≤ 6 →
         M.probability w = nativeWordProbability p ((1 / 3 : ℝ) • albertUnit) w := by
-  obtain ⟨_, _, _, _, _, M, _, _, _, _, _, _, _, _, _, hmatch⟩ :=
+  obtain ⟨_, _, _, _, _, _, _, _, _, _, M, _, _, _, _, _, _, _, _, hmatch⟩ :=
     prop_cer_universalsix_witness p hp hA
   exact ⟨M, hmatch⟩
 

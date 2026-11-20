@@ -1,0 +1,9 @@
+module
+
+import TetrahedronSubalgebraObstruction
+
+open AlbertSequential
+
+#check @tetrahedron_subalgebra_obstruction
+#print axioms tetrahedron_subalgebra_obstruction
+#print axioms submodule_eq_top_of_generatesAlbert

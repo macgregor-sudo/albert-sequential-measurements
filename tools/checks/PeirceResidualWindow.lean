@@ -1,0 +1,18 @@
+module
+
+import GeneralEJAFrameCoherence
+import PaperResidualVectors
+import CompanionLeftMultiplicationSectors
+import WindowProbabilityPureState
+import WindowProbabilitySpectralLinearization
+open AlbertSequential
+#print axioms UnitalJordanProduct.frameOffDiagonal_scaled_product_associative_of_chain
+#print axioms BlockB.atomCornerData_scalarParameters_eq_finiteTetrahedron
+#print axioms BlockB.atomCornerResidualTelescope_vectorIdentity
+#print axioms NativeAnalysis.octonionLeftProjection_rank
+#print axioms NativeAnalysis.octonionLeftProjection_trace
+#print axioms NativeAnalysis.octonionLeftSector_intertwines
+#print axioms NativeAnalysis.octonionLeftSector_spans
+#print axioms WindowProbability.partialTrace_normalizedComplexPureVector
+#print axioms WindowProbability.spectralLinearization_coordinates
+#print axioms WindowProbability.spectralLinearization_det

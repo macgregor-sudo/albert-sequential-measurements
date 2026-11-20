@@ -1331,21 +1331,21 @@ private theorem subalgebra_equivariant_affine {p pPlus pMinus : Fin 4 → Albert
 
 /-! ## Section 5: `PairFactor` Evaluation and Zero/One Occurrence Affinity -/
 
-private def atomChainElem (q : Fin 4 → Albert) (base : Fin 4) (ops : List (Fin 4)) : Albert :=
+def atomChainElem (q : Fin 4 → Albert) (base : Fin 4) (ops : List (Fin 4)) : Albert :=
   ops.foldr (fun i x => jordanMul (q i) x) (q base)
 
-private structure PairFactor where
+structure PairFactor where
   head : Fin 4
   mid : List (Fin 4)
   tail : Fin 4
 
-private def PairFactor.atoms (f : PairFactor) : List (Fin 4) :=
+def PairFactor.atoms (f : PairFactor) : List (Fin 4) :=
   f.head :: (f.mid ++ [f.tail])
 
-private def PairFactor.eval (f : PairFactor) (q : Fin 4 → Albert) : ℝ :=
+def PairFactor.eval (f : PairFactor) (q : Fin 4 → Albert) : ℝ :=
   tracePairing (q f.head) (atomChainElem q f.tail f.mid)
 
-private def PairFactor.weight (f : PairFactor) : ℕ :=
+def PairFactor.weight (f : PairFactor) : ℕ :=
   f.mid.length + 1
 
 private theorem tracePairing_foldr_reverse (q : Fin 4 → Albert) (ops : List (Fin 4)) (x y : Albert) :
@@ -1417,7 +1417,7 @@ private theorem three_complement_of_ne (d : Fin 4) :
   · exact ⟨0, 1, 2, by decide, by decide, by decide, by decide, by decide, by decide,
       fun i hi => by fin_cases i <;> simp at hi ⊢⟩
 
-private theorem pairFactor_eval_eq_of_missing {p q : Fin 4 → Albert}
+theorem pairFactor_eval_eq_of_missing {p q : Fin 4 → Albert}
     (hp : ∀ i, IsAtom (p i)) (hq : ∀ i, IsAtom (q i))
     (hpos : 0 < fourPointInvariant p)
     (ho : ∀ i j, fpOverlap p i j = fpOverlap q i j)
@@ -1468,7 +1468,7 @@ private theorem mem_split_unique {α : Type*} [DecidableEq α] {d : α} {l : Lis
       obtain ⟨l₁, l₂, rfl, h1, h2⟩ := ih hxs1
       exact ⟨x :: l₁, l₂, rfl, by simp [Ne.symm h, h1], h2⟩
 
-private theorem pairFactor_eval_affine_of_count_le_one
+theorem pairFactor_eval_affine_of_count_le_one
     {p pPlus pMinus : Fin 4 → Albert} {lam : ℝ}
     (hp : ∀ i, IsAtom (p i)) (hpPlus : ∀ i, IsAtom (pPlus i)) (hpMinus : ∀ i, IsAtom (pMinus i))
     (hpos : 0 < fourPointInvariant p)
@@ -1576,7 +1576,7 @@ private theorem sum_count_fin4 (l : List (Fin 4)) :
       fin_cases a <;> decide
     omega
 
-private theorem exists_count_le_one_of_length_le_seven (l : List (Fin 4)) (hlen : l.length ≤ 7) :
+theorem exists_count_le_one_of_length_le_seven (l : List (Fin 4)) (hlen : l.length ≤ 7) :
     ∃ d : Fin 4, l.count d ≤ 1 := by
   by_contra h
   push Not at h
@@ -1596,7 +1596,7 @@ private theorem chainElem_append_singleton (q : Fin 4 → Albert) (mid : List (F
   unfold chainElem atomChainElem
   rw [List.foldr_append, List.foldr_cons, List.foldr_nil, jordanMul_albertUnit_right]
 
-private inductive EffectTerm where
+inductive EffectTerm where
   | openTerm (coeff : ℝ) (ops : List (Fin 4))
   | splitTerm (coeff : ℝ) (factors : List PairFactor) (base : Fin 4) (ops : List (Fin 4))
 
@@ -1604,11 +1604,11 @@ private def EffectTerm.eval (q : Fin 4 → Albert) : EffectTerm → Albert
   | .openTerm c ops => c • chainElem q ops
   | .splitTerm c fs base ops => (c * (fs.map (fun f => f.eval q)).prod) • atomChainElem q base ops
 
-private def EffectTerm.weight : EffectTerm → ℕ
+def EffectTerm.weight : EffectTerm → ℕ
   | .openTerm _ ops => ops.length
   | .splitTerm _ fs _ ops => (fs.map PairFactor.weight).sum + (ops.length + 1)
 
-private def splitLast? {α : Type*} : List α → Option (List α × α)
+def splitLast? {α : Type*} : List α → Option (List α × α)
   | [] => none
   | [x] => some ([], x)
   | x :: xs =>
@@ -1616,7 +1616,7 @@ private def splitLast? {α : Type*} : List α → Option (List α × α)
     | none => none
     | some (mid, last) => some (x :: mid, last)
 
-private theorem splitLast?_none_iff {α : Type*} (l : List α) :
+theorem splitLast?_none_iff {α : Type*} (l : List α) :
     splitLast? l = none ↔ l = [] := by
   cases l with
   | nil => simp [splitLast?]
@@ -1631,7 +1631,7 @@ private theorem splitLast?_none_iff {α : Type*} (l : List α) :
         simp at this
       | some p => simp
 
-private theorem splitLast?_some {α : Type*} {l mid : List α} {last : α}
+theorem splitLast?_some {α : Type*} {l mid : List α} {last : α}
     (h : splitLast? l = some (mid, last)) :
     l = mid ++ [last] := by
   induction l generalizing mid with
@@ -1652,7 +1652,7 @@ private theorem splitLast?_some {α : Type*} {l mid : List α} {last : α}
         rcases h with ⟨rfl, rfl⟩
         simp [ih hs]
 
-private def stepU (i : Fin 4) : EffectTerm → EffectTerm
+def stepU (i : Fin 4) : EffectTerm → EffectTerm
   | .openTerm c ops =>
     match splitLast? ops with
     | none => .splitTerm c [] i []
@@ -1660,14 +1660,14 @@ private def stepU (i : Fin 4) : EffectTerm → EffectTerm
   | .splitTerm c fs base ops =>
     .splitTerm c (⟨i, ops, base⟩ :: fs) i []
 
-private def stepNeg2L (i : Fin 4) : EffectTerm → EffectTerm
+def stepNeg2L (i : Fin 4) : EffectTerm → EffectTerm
   | .openTerm c ops => .openTerm (-2 * c) (i :: ops)
   | .splitTerm c fs base ops => .splitTerm (-2 * c) fs base (i :: ops)
 
-private def stepTerm (a : Outcome (Fin 4)) (t : EffectTerm) : List EffectTerm :=
+def stepTerm (a : Outcome (Fin 4)) (t : EffectTerm) : List EffectTerm :=
   if a.2 then [stepU a.1 t] else [t, stepNeg2L a.1 t, stepU a.1 t]
 
-private def expandWord : Word (Fin 4) → List EffectTerm
+def expandWord : Word (Fin 4) → List EffectTerm
   | [] => [.openTerm 1 []]
   | a :: w => (expandWord w).flatMap (stepTerm a)
 
@@ -1763,7 +1763,7 @@ private theorem stepNeg2L_weight (i : Fin 4) (t : EffectTerm) :
   · simp [stepNeg2L, EffectTerm.weight]
   · simp [stepNeg2L, EffectTerm.weight]; omega
 
-private theorem expandWord_weight (w : Word (Fin 4)) :
+theorem expandWord_weight (w : Word (Fin 4)) :
     ∀ t ∈ expandWord w, t.weight ≤ w.length := by
   induction w with
   | nil =>
@@ -1786,7 +1786,7 @@ private theorem expandWord_weight (w : Word (Fin 4)) :
     · subst hts
       have := stepU_weight i s; simp; omega
 
-private def closeTerm : EffectTerm → ℝ × List PairFactor
+def closeTerm : EffectTerm → ℝ × List PairFactor
   | .openTerm c ops =>
     match ops with
     | [] => (3 * c, [])
@@ -1841,7 +1841,7 @@ private theorem closeTerm_eval {q : Fin 4 → Albert} (hq : ∀ i, IsAtom (q i))
         c * (tracePairing (q b) (atomChainElem q base mid) * (fs.map (fun f => f.eval q)).prod)
       ring
 
-private theorem closeTerm_weight {t : EffectTerm} {k : ℕ} (hk : t.weight ≤ k) :
+theorem closeTerm_weight {t : EffectTerm} {k : ℕ} (hk : t.weight ≤ k) :
     ((closeTerm t).2.map PairFactor.weight).sum ≤ k - 1 := by
   cases t with
   | openTerm c ops =>
@@ -1880,7 +1880,7 @@ private theorem albertTrace_list_sum (l : List Albert) :
   | nil => simp [albertTrace_zero]
   | cons x xs ih => simp [albertTrace_add, ih]
 
-private theorem nativeWordProbability_e3_eq_sum {q : Fin 4 → Albert} (hq : ∀ i, IsAtom (q i))
+theorem nativeWordProbability_e3_eq_sum {q : Fin 4 → Albert} (hq : ∀ i, IsAtom (q i))
     (w : Word (Fin 4)) :
     nativeWordProbability q ((1 / 3 : ℝ) • albertUnit) w =
       (1 / 3 : ℝ) * (((expandWord w).map closeTerm).map

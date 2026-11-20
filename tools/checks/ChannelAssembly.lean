@@ -1,0 +1,7 @@
+module
+
+import OptimalSharpMenu
+open AlbertSequential
+#print axioms exists_optimalSharpDilation_of_choices
+#print axioms exists_reducedSharpDilation_of_frames
+#print axioms sharpFrameChannelKraus_intertwining

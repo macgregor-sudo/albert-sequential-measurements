@@ -1,0 +1,8 @@
+module
+
+import OptimalSharpDilation
+open AlbertSequential
+#print axioms exists_optimalSharpDilation
+#print axioms exists_sharpDilation_of_defect_bound
+#print axioms simultaneousCornerProjections_iff
+#print axioms exists_optimalBinaryFrameChoice

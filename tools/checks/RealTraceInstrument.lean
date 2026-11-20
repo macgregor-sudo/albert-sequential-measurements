@@ -1,0 +1,6 @@
+module
+
+import HilbertTraceRealIdeal
+open AlbertSequential.HilbertTrace
+#print axioms RealInstrument.idealTest_iff_projection
+#print axioms RealInstrument.exists_measuredEffect

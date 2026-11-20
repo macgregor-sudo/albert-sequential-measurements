@@ -2327,12 +2327,19 @@ private theorem octAuto_quat_preserves_snd_zero (e1 e2 : Octonion)
   rw [hsymm]
   rfl
 
-private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
-    (hp : ∀ i, IsAtom (p i)) (hpq : ∀ i, inStandardQuat (p i)) :
+/-- The four-column normal form in the standard quaternionic window, with its
+nonnegative real entries and an ambient automorphism preserving the whole window. -/
+theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
+    (hp : ∀ i, IsAtom (p i))
+    (hmem : ∀ i, p i ∈ standardQuaternionicWindow.subalgebra.carrier) :
     ∃ (g : NativeAlbertAutomorphism)
-      (B₀ B₁ C₀ C₁ C₂ C₃ D₀ : ℝ) (X Y : Octonion),
-      (∀ i, inStandardQuat (g.linearEquiv (p i))) ∧
-      (fun i => g.linearEquiv (p i)) = sparseFourConfigOct B₀ B₁ C₀ C₁ C₂ C₃ D₀ X Y := by
+      (B₀ B₁ C₀ C₁ C₂ C₃ D₀ : ℝ) (X Y : Quaternion ℝ),
+      (∀ x ∈ standardQuaternionicWindow.subalgebra.carrier,
+        g.linearEquiv x ∈ standardQuaternionicWindow.subalgebra.carrier) ∧
+      0 ≤ B₀ ∧ 0 ≤ B₁ ∧ 0 ≤ C₀ ∧ 0 ≤ C₃ ∧ 0 ≤ D₀ ∧
+      (fun i => g.linearEquiv (p i)) =
+        sparseFourConfigOct B₀ B₁ C₀ C₁ C₂ C₃ D₀ (quatEmbed1 X) (quatEmbed1 Y) := by
+  have hpq i := (mem_standardQuat_iff (p i)).mp (hmem i)
   obtain ⟨g0, hg0q, hg0_p0⟩ := exists_quatAuto_atom_to_diagAtom0 (p 0) (hp 0) (hpq 0)
   let q1 := g0.linearEquiv (p 1)
   let q2 := g0.linearEquiv (p 2)
@@ -2350,7 +2357,8 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
   have hs1_step : ∃ g2 : NativeAlbertAutomorphism,
       g2.linearEquiv (diagAtom 0) = diagAtom 0 ∧
       (∀ y, inStandardQuat y → inStandardQuat (g2.linearEquiv y)) ∧
-      ∃ B₀ B₁ : ℝ, g2.linearEquiv s1 = octDyad ![octonionScalar B₀, octonionScalar B₁, 0] := by
+      ∃ B₀ B₁ : ℝ, 0 ≤ B₀ ∧ 0 ≤ B₁ ∧
+        g2.linearEquiv s1 = octDyad ![octonionScalar B₀, octonionScalar B₁, 0] := by
     by_cases hs1d0 : s1.1 0 = 0
     · by_cases hs1d1 : 0 < s1.1 1
       · obtain ⟨g2, hd, _h01, hq, r12, hr12, hg2_12⟩ :=
@@ -2372,7 +2380,7 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
         obtain ⟨c, s, hcs, hrot⟩ := realRotation12_octDyad_real 0 b1 b2
         let g3 := realRotation12AlbertAuto c s hcs
         refine ⟨g3.comp g2, ?_, fun y hy => realRotation12_preserves_quat c s hcs (hq y hy),
-          0, Real.sqrt (b1 ^ 2 + b2 ^ 2), ?_⟩
+          0, Real.sqrt (b1 ^ 2 + b2 ^ 2), le_rfl, Real.sqrt_nonneg _, ?_⟩
         · change g3.linearEquiv (g2.linearEquiv (diagAtom 0)) = diagAtom 0
           rw [hd 0]
           exact realRotation12_diagAtom0 c s hcs
@@ -2386,7 +2394,7 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
       · have hs1d1z : s1.1 1 = 0 := le_antisymm (not_lt.mp hs1d1) (isAtom_diag_nonneg hs1_atom 1)
         have hdy := atom_diag2_eq_octDyad hs1_atom hs1d0 hs1d1z
         refine ⟨swap12AlbertAuto, by rw [swap12AlbertAuto_diagAtom]; rfl,
-          fun _ hy => swap12_preserves_quat hy, 0, 1, ?_⟩
+          fun _ hy => swap12_preserves_quat hy, 0, 1, le_rfl, zero_le_one, ?_⟩
         rw [hdy]
         apply albert_ext <;>
           simp [swap12AlbertAuto_apply, octDyad_fst, octDyad_snd_0, octDyad_snd_1, octDyad_snd_2,
@@ -2428,13 +2436,13 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
       obtain ⟨c, s, hcs, hrot⟩ := realRotation12_octDyad_real b0 b1 b2
       let g3 := realRotation12AlbertAuto c s hcs
       refine ⟨g3.comp g2, ?_, fun y hy => realRotation12_preserves_quat c s hcs (hq y hy),
-        b0, Real.sqrt (b1 ^ 2 + b2 ^ 2), ?_⟩
+        b0, Real.sqrt (b1 ^ 2 + b2 ^ 2), Real.sqrt_nonneg _, Real.sqrt_nonneg _, ?_⟩
       · change g3.linearEquiv (g2.linearEquiv (diagAtom 0)) = diagAtom 0
         rw [hd 0]
         exact realRotation12_diagAtom0 c s hcs
       · change g3.linearEquiv t1 = _
         rw [ht1_eq]; exact hrot
-  obtain ⟨g2, hg2_d0, hg2_q, B₀, B₁, hg2_s1⟩ := hs1_step
+  obtain ⟨g2, hg2_d0, hg2_q, B₀, B₁, hB₀, hB₁, hg2_s1⟩ := hs1_step
   let t1 := g2.linearEquiv s1
   let t2 := g2.linearEquiv (g1.linearEquiv q2)
   let t3 := g2.linearEquiv (g1.linearEquiv q3)
@@ -2445,7 +2453,7 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
       (∀ i, g3.linearEquiv (diagAtom i) = diagAtom i) ∧
       g3.linearEquiv (slotElem01 octOne) = slotElem01 octOne ∧
       (∀ y, inStandardQuat y → inStandardQuat (g3.linearEquiv y)) ∧
-      ∃ C₀ C₁ C₂ C₃ : ℝ,
+      ∃ C₀ C₁ C₂ C₃ : ℝ, 0 ≤ C₀ ∧ 0 ≤ C₃ ∧
         g3.linearEquiv t2 =
           octDyad ![octonionScalar C₀, octonionScalar C₁ + C₂ • octI, octonionScalar C₃] := by
     by_cases ht2d0 : t2.1 0 = 0
@@ -2460,7 +2468,8 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
       by_cases hu2d1 : 0 < u2.1 1
       · obtain ⟨_, _, _, hdy⟩ :=
           atom_diag1_eq_octDyad hu2_atom hu2_d0 hu2d1 ⟨r12, hr12, hg3_12⟩
-        refine ⟨g3, hd, h01, hq, 0, Real.sqrt (u2.1 1), 0, Real.sqrt (u2.1 2), ?_⟩
+        refine ⟨g3, hd, h01, hq, 0, Real.sqrt (u2.1 1), 0, Real.sqrt (u2.1 2),
+          le_rfl, Real.sqrt_nonneg _, ?_⟩
         change u2 = octDyad ![octonionScalar 0, octonionScalar (Real.sqrt (u2.1 1)) + 0 • octI,
           octonionScalar (Real.sqrt (u2.1 2))]
         conv_lhs => rw [hdy]
@@ -2471,7 +2480,7 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
         · rfl
       · have hu2_d1z : u2.1 1 = 0 := le_antisymm (not_lt.mp hu2d1) (isAtom_diag_nonneg hu2_atom 1)
         have hdy := atom_diag2_eq_octDyad hu2_atom hu2_d0 hu2_d1z
-        refine ⟨g3, hd, h01, hq, 0, 0, 0, 1, ?_⟩
+        refine ⟨g3, hd, h01, hq, 0, 0, 0, 1, le_rfl, zero_le_one, ?_⟩
         change u2 = _
         rw [hdy]
         exact congrArg octDyad (vec3_eq octonionScalar_zero.symm
@@ -2492,6 +2501,8 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
         dsimp only [z]; change (1 / C₀) • (octonionConj (u2.2 0)).2 = 0
         rw [octConj_quat_snd_zero hu2_q.1, smul_zero]
       let C₃ := r02 / C₀
+      have hC₀ : 0 ≤ C₀ := Real.sqrt_nonneg _
+      have hC₃ : 0 ≤ C₃ := div_nonneg hr02 hC₀
       let C₁ := octonionReal z
       let w := octIm z
       have hwq : w.2 = 0 := by
@@ -2509,7 +2520,7 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
       by_cases hw0 : w = 0
       · have hz_sc : z = octonionScalar C₁ := by
           rw [oct_eq_scalar_add_octIm z]; change octonionScalar C₁ + w = _; rw [hw0, add_zero]
-        refine ⟨g3, hd, h01, hq, C₀, C₁, 0, C₃, ?_⟩
+        refine ⟨g3, hd, h01, hq, C₀, C₁, 0, C₃, hC₀, hC₃, ?_⟩
         rw [hz_sc] at hu2_eq
         simpa using hu2_eq
       · have hw_pos : 0 < octNormSq w :=
@@ -2584,7 +2595,8 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
           exact ⟨hpres _ hy.1, hpres _ hy.2.1, hpres _ hy.2.2⟩
         refine ⟨g4.comp g3, fun i => by
           change g4.linearEquiv (g3.linearEquiv (diagAtom i)) = diagAtom i
-          rw [hd i, octAutoToAlbertAuto_diagAtom], ?_, fun y hy => hg4_q _ (hq y hy), C₀, C₁, C₂, C₃, ?_⟩
+          rw [hd i, octAutoToAlbertAuto_diagAtom], ?_, fun y hy => hg4_q _ (hq y hy),
+          C₀, C₁, C₂, C₃, hC₀, hC₃, ?_⟩
         · change g4.linearEquiv (g3.linearEquiv (slotElem01 octOne)) = slotElem01 octOne
           rw [h01, octAutoToAlbertAuto_slotElem01, α.symm.map_one]
         · change g4.linearEquiv u2 = _
@@ -2596,16 +2608,16 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
             change α.symm.equiv (octonionScalar C₁ + w) = _
             rw [map_add, octAuto_map_scalar, hα_w]
           · exact octAuto_map_scalar α.symm C₃
-  obtain ⟨g3, hg3_diag, hg3_01, hg3_q, C₀, C₁, C₂, C₃, hg3_t2⟩ := ht2_step
+  obtain ⟨g3, hg3_diag, hg3_01, hg3_q, C₀, C₁, C₂, C₃, hC₀, hC₃, hg3_t2⟩ := ht2_step
   let u3 := g3.linearEquiv t3
   have hu3_atom : IsAtom u3 := g3.map_isAtom (g2.map_isAtom (g1.map_isAtom hq3_atom))
   have hu3_q : inStandardQuat u3 := hg3_q t3 ht3_q
   have hu3_dyad : ∃ (D₀ : ℝ) (X Y : Octonion),
-      u3 = octDyad ![octonionScalar D₀, X, Y] ∧ X.2 = 0 ∧ Y.2 = 0 := by
+      0 ≤ D₀ ∧ u3 = octDyad ![octonionScalar D₀, X, Y] ∧ X.2 = 0 ∧ Y.2 = 0 := by
     by_cases hu3d0 : 0 < u3.1 0
     · obtain ⟨hdy, _⟩ := isAtom_eq_octDyad hu3_atom hu3d0
       refine ⟨Real.sqrt (u3.1 0), (1 / Real.sqrt (u3.1 0)) • octonionConj (u3.2 0),
-        (1 / Real.sqrt (u3.1 0)) • octonionConj (u3.2 1), hdy, ?_, ?_⟩
+        (1 / Real.sqrt (u3.1 0)) • octonionConj (u3.2 1), Real.sqrt_nonneg _, hdy, ?_, ?_⟩
       · change (1 / Real.sqrt (u3.1 0)) • (octonionConj (u3.2 0)).2 = 0
         rw [octConj_quat_snd_zero hu3_q.1, smul_zero]
       · change (1 / Real.sqrt (u3.1 0)) • (octonionConj (u3.2 1)).2 = 0
@@ -2624,7 +2636,7 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
           have hf0' : u3.1 1 * u3.1 2 = octNormSq (u3.2 2) := by linarith
           rw [← hf0']; field_simp [hu3d1.ne']
         obtain ⟨hz01, hz02⟩ := isAtom_zero_row0 hu3_atom hu3d0z
-        refine ⟨0, octonionScalar x0, Y, ?_, rfl, ?_⟩
+        refine ⟨0, octonionScalar x0, Y, le_rfl, ?_, rfl, ?_⟩
         · apply albert_ext
           · simp [octDyad_fst, hu3d0z, octNormSq_scalar]
           · dsimp only [x0]; simp [octDyad_fst, octNormSq_scalar, Real.sq_sqrt hu3d1.le]
@@ -2643,10 +2655,10 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
           rw [octConj_quat_snd_zero hu3_q.2.2, smul_zero]
       · have hu3d1z : u3.1 1 = 0 := le_antisymm (not_lt.mp hu3d1) (isAtom_diag_nonneg hu3_atom 1)
         have hdy := atom_diag2_eq_octDyad hu3_atom hu3d0z hu3d1z
-        refine ⟨0, 0, octonionScalar 1, ?_, rfl, rfl⟩
+        refine ⟨0, 0, octonionScalar 1, le_rfl, ?_, rfl, rfl⟩
         rw [hdy]
         exact congrArg octDyad (vec3_eq octonionScalar_zero.symm rfl rfl)
-  obtain ⟨D₀, X, Y, hu3_eq, hXq, hYq⟩ := hu3_dyad
+  obtain ⟨D₀, X, Y, hD₀, hu3_eq, hXq, hYq⟩ := hu3_dyad
   let g := g3.comp (g2.comp (g1.comp g0))
   have hg_p0 : g.linearEquiv (p 0) = octDyad ![octonionScalar 1, 0, 0] := by
     change g3.linearEquiv (g2.linearEquiv (g1.linearEquiv (g0.linearEquiv (p 0)))) = _
@@ -2669,30 +2681,14 @@ private theorem exists_quatAuto_to_sparseFourConfigOct (p : Fin 4 → Albert)
         (by rw [octonionScalar_eq_smul (B₀ * B₁), ← octOne_eq_scalar])
     rw [ht1_eq]
     simp only [map_add, map_smul, hg3_diag 0, hg3_diag 1, hg3_01]
-  refine ⟨g, B₀, B₁, C₀, C₁, C₂, C₃, D₀, X, Y, fun i => ?_, ?_⟩
-  · fin_cases i <;> dsimp
-    · rw [hg_p0]
-      exact ⟨octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl),
-        octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl),
-        octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl)⟩
-    · rw [hg_p1]
-      exact ⟨octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl),
-        octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl),
-        octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl)⟩
-    · have hc12 : (octonionScalar C₁ + C₂ • octI).2 = 0 := by
-        change (octonionScalar C₁).2 + C₂ • octI.2 = 0
-        rw [show octI.2 = 0 from rfl, smul_zero, add_zero]; rfl
-      change inStandardQuat (g3.linearEquiv t2)
-      rw [hg3_t2]
-      exact ⟨octMul_quat_snd_zero rfl (octConj_quat_snd_zero hc12),
-        octMul_quat_snd_zero rfl (octConj_quat_snd_zero rfl),
-        octMul_quat_snd_zero hc12 (octConj_quat_snd_zero rfl)⟩
-    · change inStandardQuat u3
-      rw [hu3_eq]
-      exact ⟨octMul_quat_snd_zero rfl (octConj_quat_snd_zero hXq),
-        octMul_quat_snd_zero rfl (octConj_quat_snd_zero hYq),
-        octMul_quat_snd_zero hXq (octConj_quat_snd_zero hYq)⟩
-  · funext i
+  have hX : quatEmbed1 X.1 = X := Prod.ext rfl hXq.symm
+  have hY : quatEmbed1 Y.1 = Y := Prod.ext rfl hYq.symm
+  refine ⟨g, B₀, B₁, C₀, C₁, C₂, C₃, D₀, X.1, Y.1, ?_, hB₀, hB₁, hC₀, hC₃, hD₀, ?_⟩
+  · intro x hx
+    apply (mem_standardQuat_iff _).mpr
+    exact hg3_q _ (hg2_q _ (hg1_q _ (hg0q _ ((mem_standardQuat_iff x).mp hx))))
+  · rw [hX, hY]
+    funext i
     fin_cases i
     · exact hg_p0
     · exact hg_p1
@@ -2705,45 +2701,19 @@ theorem lemma_A_zero_of_quat (Q : QuaternionicWindow) (p : Fin 4 → Albert)
   obtain ⟨g0, hg0⟩ := native_quaternionicWindow_conjugate_standard Q
   let q := fun i => g0.linearEquiv (p i)
   have hq_atom : ∀ i, IsAtom (q i) := fun i => g0.map_isAtom (hp i)
-  have hq_std : ∀ i, inStandardQuat (q i) := fun i =>
-    (mem_standardQuat_iff _).mp ((hg0 (p i)).mp (hq i))
-  obtain ⟨g1, B₀, B₁, C₀, C₁, C₂, C₃, D₀, X, Y, hq_std1, hcfg⟩ :=
+  have hq_std : ∀ i, q i ∈ standardQuaternionicWindow.subalgebra.carrier :=
+    fun i => (hg0 (p i)).mp (hq i)
+  obtain ⟨g1, B₀, B₁, C₀, C₁, C₂, C₃, D₀, X, Y, _, _, _, _, _, _, hcfg⟩ :=
     exists_quatAuto_to_sparseFourConfigOct q hq_atom hq_std
-  have hq3_in : inStandardQuat (g1.linearEquiv (q 3)) := hq_std1 3
   have hinv0 : fourPointInvariant p = fourPointInvariant q :=
     (fourPointInvariant_automorphism_invariant g0 p).symm
   have hinv1 : fourPointInvariant q = fourPointInvariant (fun i => g1.linearEquiv (q i)) :=
     (fourPointInvariant_automorphism_invariant g1 q).symm
   rw [hinv0, hinv1, hcfg, sparseFourConfigOct_fourPointInvariant]
-  by_cases hD0 : D₀ = 0
-  · simp [hD0]
-  · have hI : octI ∈ Set.range quatEmbed1 := ⟨⟨0, 1, 0, 0⟩, by apply oct_ext <;> simp [quatEmbed1_apply, octI]⟩
-    have hX : X ∈ Set.range quatEmbed1 := by
-      have h01 : (g1.linearEquiv (q 3)).2 0 = D₀ • octonionConj X := by
-        rw [congrFun hcfg 3]; simp [sparseFourConfigOct, octDyad, octonionMul_scalar_left]
-      have hsm : D₀ • (octonionConj X).2 = 0 := by
-        change (D₀ • octonionConj X).2 = 0
-        rw [← h01]; exact hq3_in.1
-      have hconj_snd : (octonionConj X).2 = 0 := (smul_eq_zero.mp hsm).resolve_left hD0
-      have hX_snd : X.2 = 0 := by
-        have h := octConj_quat_snd_zero hconj_snd
-        rw [octonionConj_conj] at h
-        exact h
-      exact ⟨X.1, Prod.ext rfl hX_snd.symm⟩
-    have hY : Y ∈ Set.range quatEmbed1 := by
-      have h02 : (g1.linearEquiv (q 3)).2 1 = D₀ • octonionConj Y := by
-        rw [congrFun hcfg 3]; simp [sparseFourConfigOct, octDyad, octonionMul_scalar_left]
-      have hsm : D₀ • (octonionConj Y).2 = 0 := by
-        change (D₀ • octonionConj Y).2 = 0
-        rw [← h02]; exact hq3_in.2.1
-      have hconj_snd : (octonionConj Y).2 = 0 := (smul_eq_zero.mp hsm).resolve_left hD0
-      have hY_snd : Y.2 = 0 := by
-        have h := octConj_quat_snd_zero hconj_snd
-        rw [octonionConj_conj] at h
-        exact h
-      exact ⟨Y.1, Prod.ext rfl hY_snd.symm⟩
-    rw [octAssociator_eq_zero_of_quatEmbedding quatEmbed1 quatEmbed1_isQuatEmbedding hI hX hY,
-      octNormSq_zero, mul_zero]
+  have hI : octI ∈ Set.range quatEmbed1 :=
+    ⟨⟨0, 1, 0, 0⟩, by apply oct_ext <;> simp [quatEmbed1_apply, octI]⟩
+  rw [octAssociator_eq_zero_of_quatEmbedding quatEmbed1 quatEmbed1_isQuatEmbedding hI
+    ⟨X, rfl⟩ ⟨Y, rfl⟩, octNormSq_zero, mul_zero]
 
 private theorem mem_quatWindowOfEmbedding_of_slots {φ : Quaternion ℝ →ₗ[ℝ] Octonion}
     (hφ : IsQuatEmbedding φ) {x : Albert}

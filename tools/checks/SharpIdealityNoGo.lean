@@ -1,0 +1,13 @@
+module
+
+import HilbertTraceSharpIdealityNoGo
+
+open AlbertSequential AlbertSequential.HilbertTrace
+open SharpDisturbance
+
+#check @real_sharp_simulator_ideality_failure
+#check @complex_sharp_simulator_ideality_failure
+#check @quaternionic_sharp_simulator_ideality_failure
+#print axioms real_sharp_simulator_ideality_failure
+#print axioms complex_sharp_simulator_ideality_failure
+#print axioms quaternionic_sharp_simulator_ideality_failure

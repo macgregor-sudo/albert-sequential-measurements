@@ -1,0 +1,16 @@
+module
+
+import SpinFactorClifford
+import GeneralEJAGenerated
+import Robustness.SevenStepCalibration
+open AlbertSequential
+#print axioms SpinFactorCoordinates.exists_faithfulHermitianJordanEmbedding
+#print axioms SpinFactorCoordinates.canonicalProjectiveTables_subset_finiteComplex
+#print axioms UnitalJordanProduct.no_hilbertModel_of_BPrimitiveMenu_albertWeight
+#print axioms UnitalJordanProduct.no_quaternionicModel_of_BPrimitiveMenu_albertWeight
+#print axioms UnitalJordanProduct.AlbertIdeal.exists_four_test_obstruction_of_albertIdeal
+#print axioms sevenStepMargin_of_calibrated_instruments
+#print axioms faceCalibrationError_le
+example : spinFactorTableUnion.{0,0} 3 ⊂ finiteHilbertProjectiveTables.{0} ℂ 3 :=
+  spinFactorTableUnion_ssubset_finiteComplex_three
+#print axioms spinFactorTableUnion_ssubset_finiteComplex_three

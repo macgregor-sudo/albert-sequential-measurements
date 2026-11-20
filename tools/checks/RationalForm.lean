@@ -1,0 +1,18 @@
+module
+
+import ScheduleMatchingRationalForm
+
+open AlbertSequential.MatchingModels
+
+#print axioms horizonGammaQuat_conjugation
+#print axioms horizonGammaOct_involutive
+#print axioms horizonRationalBeta_apply
+#print axioms horizonRationalBeta_involutive
+#print axioms castA_horizonBeta
+#print axioms horizonRationalParity_jordan
+#print axioms horizonRationalForm_jordan
+#print axioms horizonRationalForm_quadratic
+#print axioms horizonRationalForm_trace
+#print axioms horizonMRational_coordinate_binding
+#print axioms horizon_M_probability_rational_e3
+#print axioms horizon_M_probability_rational_A

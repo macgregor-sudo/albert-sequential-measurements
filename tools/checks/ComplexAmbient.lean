@@ -1,0 +1,7 @@
+module
+
+import WindowProbabilityComplexAmbient
+import PaperResidualCyclic
+open AlbertSequential
+#print axioms WindowProbability.complexAmbientWindow_probability_law_of_iso
+#print axioms WindowProbability.ae_inducedComplexStateLaw_one_rank

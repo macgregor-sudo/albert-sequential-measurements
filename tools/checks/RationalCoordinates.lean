@@ -1,0 +1,16 @@
+module
+
+import ScheduleMatchingRationalCoordinates
+
+open AlbertSequential.MatchingModels
+
+#print axioms horizonAlbertCoordinates_beta
+#print axioms horizonRationalParity_iff_coordinates
+#print axioms horizonRationalParity_dimensions
+#print axioms horizonRationalForm_iff_coordinates
+#print axioms horizonRationalForm_dimension
+#print axioms horizonRationalForm_decomposition_unique
+#print axioms horizonRationalBasis_multiplication_coefficients
+#print axioms horizonRationalBasis_quadratic_coefficients
+#print axioms horizon_M_original_coordinate_field
+#print axioms horizon_M_B_not_original_rational

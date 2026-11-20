@@ -1,0 +1,8 @@
+module
+
+import WindowProbabilityAlbertWindowLaw
+open AlbertSequential.WindowProbability
+#check @albert_complexWindow_probability_law_of_invariant
+#print axioms albert_complexWindow_probability_law
+#print axioms albert_complexWindow_probability_law_of_invariant
+#print axioms ae_albert_complexWindow_probability_rank

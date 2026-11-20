@@ -1,11 +1,12 @@
 # Attribution of adapted code
 
-The repository is licensed Apache-2.0 ([LICENSE](../LICENSE)). Its Lean code, mathematics and text were
-produced by AI systems (see the [README](../README.md)), except for two groups of adapted files: the
-declarations adapted from Physlib, listed below, were written by their upstream author, and the
+The Lean software is licensed Apache-2.0 ([LICENSE](../LICENSE)). Its Lean code, mathematics and text were
+produced by AI systems (see the [README](../README.md)), except for three groups of adapted files: the
+declarations adapted from Physlib, listed below, were written by their upstream author; the
 modules under `src/Glennie/` are adapted from the contributor's earlier Palomar entry
-PALOMAR-2026-10-16-000013, whose production account is recorded there. Both sources are licensed
-Apache-2.0. This file names each file, its origin and what was changed;
+PALOMAR-2026-10-16-000013, whose production account is recorded there; and the ten modules under
+`src/CompositionAlgebras/` are adapted from `ehrlich-b/composition-algebras`, whose copyright
+holder is named below. All three sources are licensed Apache-2.0. This file names each file, its origin and what was changed;
 [`THIRD_PARTY_NOTICES`](../THIRD_PARTY_NOTICES) repeats the notices in plain text.
 
 ## Physlib
@@ -62,6 +63,31 @@ frame invariants), which is an ancestor of code in PALOMAR-2026-10-16-000013, an
 PALOMAR-2026-10-29-000034 (`macgregor-sudo/tight-39-code` at `46f01c1`, tight 39-point code), which
 shares the `Glennie/` ancestry.
 
+## Composition algebras
+
+Source: https://github.com/ehrlich-b/composition-algebras, commit
+[`98d4437ce1bfd8d042b8383e0cfe28ec3e595eee`](https://github.com/ehrlich-b/composition-algebras/tree/98d4437ce1bfd8d042b8383e0cfe28ec3e595eee),
+registered in Palomar as PALOMAR-2026-08-29-000018 v1, licensed Apache-2.0, copyright Bryan Ehrlich
+(as stated in the retained upstream headers). Thanks to Bryan Ehrlich.
+
+The classification of the simple summands of rank three in core Theorem 4.11
+(`HurwitzRankThreeClassification`) uses `CompositionAlgebra.hurwitz_classification`, Hurwitz's
+classification of the finite-dimensional Euclidean composition algebras over `ℝ`, from these files. The upstream toolchain is Lean `v4.33.0`, with Mathlib at
+`db584cd6d46c92f209a44c0f1c829460d327499d`. The source archive SHA-256 is
+`707a08e715beb738eae294b87d67ffd06d530819e9f6038132a2d49a48fb0852`.
+
+The ten adapted `.lean` files mirror their upstream paths under `src/CompositionAlgebras/`:
+`Composition/Defs`, `Composition/Doubling`, `Composition/CayleyDickson`, `Octonions`,
+`OctonionTrace`, `OctonionModule`, `Composition/Instances`, `Composition/Isomorphisms`,
+`Composition/Hurwitz`, and `Composition/Classification`. Each file is adapted whole, with all its
+declarations. Each keeps its original Apache-2.0 copyright and author header and identifies its
+changes. All ten were adapted to the Lean module system.
+`Octonions` imports the direct replacement of a deprecated Mathlib import. `Composition/Isomorphisms`
+removes redundant tactic combinators and simp arguments. The original Apache-2.0 text is included at
+[`src/CompositionAlgebras/LICENSE`](../src/CompositionAlgebras/LICENSE); its SHA-256 is
+`cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30`. Upstream has no `NOTICE` file.
+The project uses these files with its existing Lean and Mathlib 4.36.0 pins.
+
 ## Related registered work by others (no code used)
 
 The registered Palomar entries below treat related mathematics; no file or declaration of them is
@@ -77,11 +103,21 @@ cites the three `ehrlich-b` repositories.
 | PALOMAR-2026-08-23-000006 v1 | `ehrlich-b/euclidean-jordan` at `58fb886d` | `JordanSpectral.spectral_resolution_bilinear` (spectral resolution) |
 | PALOMAR-2026-08-29-000001 v1 | `ehrlich-b/euclidean-jordan` at `a0077822` | `JordanTraceForm.traceForm_comm`, `traceForm_assoc`, `traceForm_self_nonneg`, `traceForm_self_eq_zero_iff` (the Jordan trace form) |
 | PALOMAR-2026-08-29-000008 v1 | `ehrlich-b/euclidean-jordan` at `a83407e4` | `JordanFramePeirce.frameBlock_isInternal`, `finrank_frameBlock_diag` (Peirce decomposition relative to a frame) |
-| PALOMAR-2026-08-29-000015 v1 | `ehrlich-b/composition-algebras` at `e37e22b0` | `HurwitzDimension.finrank_eq_one_or_two_or_four_or_eight` (Hurwitz's theorem, dimension form) |
-| PALOMAR-2026-08-29-000018 v1 | `ehrlich-b/composition-algebras` at `98d4437c` | `HurwitzClassification.hurwitz_classification` (Hurwitz's theorem, classification form, with the octonions constructed) |
 | PALOMAR-2026-11-11-000008 v1 | `stalex444/herstein-jordan-homomorphisms` at `34dffa8a` | `JordanPrime.jordan_onto_prime` and five further theorems (Herstein's theorem on Jordan homomorphisms of associative rings onto prime rings) |
 
 ## Mathlib
 
 The development depends on Mathlib `v4.36.0` (commit `fc4f59e577feb1a4956671bc04ac18aaaf8cd842`,
 Apache-2.0) as a package; no Mathlib file is copied or modified.
+
+## Other public code consulted, no code used
+
+The trace-class ideal of the Tau Ceti project, at commit
+[`aa3cfad1274c06cff25f2b58848498b3c3f68d0f`](https://github.com/TauCetiProject/TauCeti/blob/aa3cfad1274c06cff25f2b58848498b3c3f68d0f/TauCeti/Analysis/OperatorIdeal/Family/TraceClass.lean)
+(Apache-2.0, [licence](https://github.com/TauCetiProject/TauCeti/blob/aa3cfad1274c06cff25f2b58848498b3c3f68d0f/LICENSE)),
+uses the same Lean and Mathlib revisions and provides real and complex nuclear approximation numbers.
+The papers need a trace and its duality on real, complex and right-quaternionic operators; the
+development builds these on its own representations (`HilbertTrace*`) and copies no code from Tau Ceti.
+
+The repository [`Cobord/JordanAlgebra`](https://github.com/Cobord/JordanAlgebra/tree/a4b0d58554732ced63b4217200baa56be5a2c3d5),
+at the revision inspected, carries no licence grant that applies; none of its code is used.

@@ -1,0 +1,11 @@
+module
+
+import Robustness.ComplexSharpDisturbance
+import Robustness.QuaternionicSharpDisturbance
+open AlbertSequential.HilbertTrace
+#check @complex_sharp_effects_disturb
+#check @quaternionic_sharp_effects_disturb
+#print axioms complex_sharp_effects_disturb
+#print axioms quaternionic_sharp_effects_disturb
+#print axioms complex_signedTrace_jordan_decomposition
+#print axioms quaternionic_signedTrace_jordan_decomposition

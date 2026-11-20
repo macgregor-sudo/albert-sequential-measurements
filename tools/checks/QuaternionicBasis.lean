@@ -1,0 +1,14 @@
+module
+
+import HilbertTraceQuaternionicBasisPairing
+
+open AlbertSequential.HilbertTrace
+
+#print axioms quaternionicTracePairing_eq_quaternionic_diagonal
+#print axioms quaternionicTracePairing_eq_quaternionic_diagonal_of_basis_change
+#print axioms quaternionicSignedFiniteTrace_basis_eq
+#print axioms quaternionicTracePairing_basis_eq
+#print axioms real_signedFiniteTrace_basis_eq
+#print axioms real_signedTracePairing_basis_eq
+#print axioms complex_signedFiniteTrace_basis_eq
+#print axioms complex_signedTracePairing_basis_eq

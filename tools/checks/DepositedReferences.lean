@@ -1,0 +1,321 @@
+/- SPDX-License-Identifier: Apache-2.0 -/
+module
+
+import AlbertExceptionality
+import AlgebraicGramNecessity
+import AppF.GlennieMFinal
+import AppF.GlennieS
+import AppF.GlennieSOrders
+import AppF.SecondOrderKernel
+import AppF.SecondOrderQuotient
+import AppF.SecondOrderSpecial
+import BlockA.GlennieGeneral
+import BlockA.SecondOrderResidual
+import BlockB.ElevenSupport
+import BlockB.ElevenTheorem
+import BlockB.EveryState
+import BlockB.RobustNativeMS
+import CompleteFrameQutritComparison
+import CompleteMeasurementMarkov
+import ComplexProjectiveExtension
+import ComplexWindowDeterminantAndMax
+import CyclicFiniteDimension
+import CyclicHilbertModel
+import Ends.Eleven
+import Ends.FiveB
+import Ends.UniformB
+import EvaluatedSquareSoundness
+import FieldExtensionFiniteDimension
+import FiniteCPHankelRank
+import FiniteGramEquivalence
+import FiveTest.Compose
+import FiveTest.Main
+import FiveTest.Transfer
+import FixedSConstructedWitness
+import FixedSSumBounds
+import FrameSlotNormalizers
+import GeneratedCyclicReconstruction
+import HermitianStateTransport
+import HilbertModelSeparation
+import HilbertProjectiveData
+import HorizonFive.Contraction
+import HorizonFive.Final
+import HorizonFive.Recognition
+import HorizonFive.ReflA
+import IdealJordanInstruments
+import IdealTestFoundations
+import InstrumentFactorization
+import Interfaces.AlgebraicReconstruction
+import Interfaces.InstrumentsAndCompactness
+import Interfaces.WordsAndCertificates
+import Joins.Compactness
+import Joins.Eleven
+import Joins.Helly
+import Joins.NoEquality
+import JordanHomTransport
+import JordanTripleTransport
+import LemmaB.Conclusion
+import LemmaB.Gram
+import LemmaB.Lemma
+import LengthSeven.LemmaA.Main
+import LengthSeven.ShortRules
+import LengthSeven.TableValues
+import LocalVolume
+import MatchingModels.DfailsModel
+import MatchingModels.FiveTestMinimum
+import MatchingModels.LMinSeven
+import MatchingModels.QuatPair
+import MatchingModels.UniversalSix
+import NativeFiniteIdempotentSimulation
+import NativeReachableDensity
+import NativeReachableIdeality
+import NativeReflectionOrbit
+import NativeSharpInstrumentSimulation
+import NativeSupport
+import NativeTaggedInitialModels
+import NativeWordPurity
+import PaperFixedDimensionCompactness
+import PentadArityAndHelly
+import PositiveFunctionalNull
+import PrimitivePurityDecomposition
+import PurityResiduals
+import QuaternionicProjectiveData
+import QuaternionicProjectiveExtension
+import RealFiniteKrausModel
+import RealWordFunctionals
+import RobustCert.RobustM
+import RobustCert.RobustS
+import Robustness.PositiveInstrumentStability
+import Robustness.RootInstrumentWitnessBounds
+import SequentialEffectLifts
+import Solution
+import SubalgebraCoordsAndLine
+import SuppliedEmbeddingStateTransport
+import SupportedSharpDilation
+import TableModel.Main
+import TetrahedronEngine
+import ThirteenTracesAndAform
+import ThreeAtomAndFourPoint
+import Uniform.Corollaries
+import Uniform.Main
+
+/- Declarations named by the 253 typeset references in the two v1 TeX files. -/
+#print axioms AlbertChallenge.Bridge.cor_helly_classI
+#print axioms AlbertChallenge.albert_criterion
+#print axioms AlbertChallenge.fourPoint_criterion
+#print axioms AlbertChallenge.isAtom_iff_primitive
+#print axioms AlbertChallenge.least_separating_length
+#print axioms AlbertChallenge.linear_separator_of_generates
+#print axioms AlbertChallenge.no_representation_of_generates
+#print axioms AlbertChallenge.quadrupleM_spec
+#print axioms AlbertChallenge.quadrupleS_spec
+#print axioms AlbertChallenge.seven_steps_exclude
+#print axioms AlbertChallenge.six_step_model
+#print axioms AlbertChallenge.three_atoms
+#print axioms AlbertChallenge.zero_invariant_model
+#print axioms AlbertSequential.AlgebraicProjectiveData
+#print axioms AlbertSequential.AlgebraicProjectiveData.evaluatedSquareIdentity_sound
+#print axioms AlbertSequential.AlgebraicProjectiveData.finiteGram
+#print axioms AlbertSequential.AppF.Dq.instRing
+#print axioms AlbertSequential.AppF.E2_jordanHom_kills_K
+#print axioms AlbertSequential.AppF.E2_not_special
+#print axioms AlbertSequential.AppF.cor_so_residual
+#print axioms AlbertSequential.AppF.cor_so_residual_linearFunctional
+#print axioms AlbertSequential.AppF.cor_so_residual_of_atoms
+#print axioms AlbertSequential.AppF.glennie_fixedS_ABD_C
+#print axioms AlbertSequential.AppF.glennie_fixedS_ACD_B
+#print axioms AlbertSequential.AppF.glennie_fixedS_BCD_A
+#print axioms AlbertSequential.AppF.glennie_fixedS_value
+#print axioms AlbertSequential.AppF.glennie_maximizer_value
+#print axioms AlbertSequential.AppF.prop_cer_noequality_a
+#print axioms AlbertSequential.AppF.red1_injective
+#print axioms AlbertSequential.AppF.red1_jordan
+#print axioms AlbertSequential.AppF.redq_eq_zero_iff
+#print axioms AlbertSequential.AppF.redq_jordan
+#print axioms AlbertSequential.AppF.redq_unit
+#print axioms AlbertSequential.AppF.thm_glennie
+#print axioms AlbertSequential.AppF.thm_glennie_eq_zero_iff
+#print axioms AlbertSequential.AppF.thm_glennie_normSq
+#print axioms AlbertSequential.AppF.thm_glennie_perm
+#print axioms AlbertSequential.BlockB.cor_cer_everystate
+#print axioms AlbertSequential.BlockB.elevenLedgerWords_eq_elevenBase
+#print axioms AlbertSequential.BlockB.elevenUnion_card
+#print axioms AlbertSequential.BlockB.everystate_lengthSeven_algebraic
+#print axioms AlbertSequential.BlockB.isTracesM_maximizerConfig
+#print axioms AlbertSequential.BlockB.isTracesS_fixedS
+#print axioms AlbertSequential.BlockB.robustFunctionalM
+#print axioms AlbertSequential.BlockB.robustFunctionalS
+#print axioms AlbertSequential.BlockB.seven_M_e3_algebraic
+#print axioms AlbertSequential.BlockB.seven_M_pA_algebraic
+#print axioms AlbertSequential.BlockB.seven_S_e3_algebraic
+#print axioms AlbertSequential.BlockB.seven_S_pA_algebraic
+#print axioms AlbertSequential.BlockB.thm_cer_seven_b_M_algebraic
+#print axioms AlbertSequential.BlockB.thm_cer_seven_b_S_algebraic
+#print axioms AlbertSequential.BlockB.thm_eleven_full
+#print axioms AlbertSequential.BlockB.thm_eleven_with_overlaps
+#print axioms AlbertSequential.CornerRelations
+#print axioms AlbertSequential.Ends.Eleven.elevenBase_card
+#print axioms AlbertSequential.Ends.Eleven.elevenBase_hist
+#print axioms AlbertSequential.Ends.five_short_b_exists
+#print axioms AlbertSequential.Ends.five_short_b_p0_exists
+#print axioms AlbertSequential.Ends.uniform_b
+#print axioms AlbertSequential.Ends.uniform_b_pA
+#print axioms AlbertSequential.FaithfulHermitianJordanEmbedding.exists_unique_positive_trace_representative
+#print axioms AlbertSequential.FiniteRealWordFunctional.separation_forces_error
+#print axioms AlbertSequential.FiveTest.cor_fp_noideal
+#print axioms AlbertSequential.FiveTest.five_short_e3
+#print axioms AlbertSequential.FiveTest.five_short_p0
+#print axioms AlbertSequential.FiveTest.quad_lift
+#print axioms AlbertSequential.FiveTest.thm_five_refl
+#print axioms AlbertSequential.FiveTest.thm_pentad_b
+#print axioms AlbertSequential.HilbertModelSeparation.uniformHilbertSeparator_generating_atoms
+#print axioms AlbertSequential.HilbertProjectiveData
+#print axioms AlbertSequential.HilbertProjectiveData.complexExtensionModel_probability
+#print axioms AlbertSequential.HilbertProjectiveData.cyclicHilbert_finite
+#print axioms AlbertSequential.HilbertProjectiveData.quaternionExtensionModel_probability
+#print axioms AlbertSequential.HorizonFive.horizonFiveClause
+#print axioms AlbertSequential.HorizonFive.horizonFive_projectiveEquality
+#print axioms AlbertSequential.HorizonFive.recognitionThroughFivePos
+#print axioms AlbertSequential.HorizonFive.reflectionClassConsistency
+#print axioms AlbertSequential.HorizonFive.reflectionContraction
+#print axioms AlbertSequential.HorizonFive.transferThroughSeven
+#print axioms AlbertSequential.IsNormalizedFiniteCPModel
+#print axioms LemmaB.Xi_mem_span_uhat
+#print axioms LemmaB.gram_Xi
+#print axioms LemmaB.no_psd_realisation_traces
+#print axioms AlbertSequential.LengthSeven.LemmaA.lemmaA
+#print axioms AlbertSequential.LengthSeven.LemmaA.lemmaA_budget
+#print axioms AlbertSequential.LengthSeven.LemmaA.lemmaA_of_gram28Hyp
+#print axioms AlbertSequential.LengthSeven.Robust.counterT_M
+#print axioms AlbertSequential.LengthSeven.Robust.counterT_S
+#print axioms AlbertSequential.LengthSeven.Robust.counterW_M_0
+#print axioms AlbertSequential.LengthSeven.TableModel.tableModel
+#print axioms AlbertSequential.LengthSeven.TableModel.tableModel_lemmaB
+#print axioms AlbertSequential.LengthSeven.Uniform.noideal_algebraic
+#print axioms AlbertSequential.LengthSeven.Uniform.noideal_hilbert
+#print axioms AlbertSequential.LengthSeven.Uniform.noideal_rightQuaternionic
+#print axioms AlbertSequential.LengthSeven.Uniform.pentad_b_algebraic
+#print axioms AlbertSequential.LengthSeven.Uniform.uniform_lengthSeven_e3_algebraic
+#print axioms AlbertSequential.LengthSeven.Uniform.uniform_lengthSix_pA_algebraic
+#print axioms AlbertSequential.LengthSeven.WalkForm.shortRules_of_table
+#print axioms AlbertSequential.LengthSeven.lengthSeven_e3_rules
+#print axioms AlbertSequential.MatchingModels.cor_five_minimum_e3_isLeast_classI
+#print axioms AlbertSequential.MatchingModels.cor_five_minimum_p0_isLeast_classI
+#print axioms AlbertSequential.MatchingModels.dfails_length_le_two
+#print axioms AlbertSequential.MatchingModels.dfails_length_three_deviations
+#print axioms AlbertSequential.MatchingModels.dfails_purity_defect
+#print axioms AlbertSequential.MatchingModels.dfails_tetra_dtet
+#print axioms AlbertSequential.MatchingModels.dfails_thirteen_traces
+#print axioms AlbertSequential.MatchingModels.lMin_eq_seven
+#print axioms AlbertSequential.MatchingModels.no_classI_linearEq_le_six
+#print axioms AlbertSequential.MatchingModels.no_classI_linearIneq_le_six
+#print axioms AlbertSequential.MatchingModels.overlap_pos_lt_one_of_fourPoint_pos
+#print axioms AlbertSequential.MatchingModels.prop_cer_quatpair_a
+#print axioms AlbertSequential.MatchingModels.prop_cer_quatpair_b
+#print axioms AlbertSequential.MatchingModels.prop_cer_quatpair_c_line
+#print axioms AlbertSequential.MatchingModels.prop_cer_universalsix_c12
+#print axioms AlbertSequential.MatchingModels.prop_cer_universalsix_witness
+#print axioms AlbertSequential.NativeAnalysis.exists_nativeFourIdempotent_mixed_instrument_68
+#print axioms AlbertSequential.NativeAnalysis.exists_nativeGeneral_real_simulation
+#print axioms AlbertSequential.NativeAnalysis.exists_nativeNoHalf_real_simulation
+#print axioms AlbertSequential.NativeAnalysis.exists_nativeNoHalf_sharp_instrument_34n
+#print axioms AlbertSequential.NativeAnalysis.exists_nativeSharp_instrument_2_17n_add_one
+#print axioms AlbertSequential.NativeAnalysis.nativeTaggedBlock_card
+#print axioms AlbertSequential.NativeAnalysis.native_corner_long_probability
+#print axioms AlbertSequential.PositiveInstruments.IsIdealTest
+#print axioms AlbertSequential.PositiveInstruments.idealTest_iff_quadraticRepresentation
+#print axioms AlbertSequential.QuaternionicProjectiveData
+#print axioms AlbertSequential.QuaternionicProjectiveData.cyclicHilbert_finite_of_real
+#print axioms AlbertSequential.RealFiniteKrausModel
+#print axioms AlbertSequential.albertJordanHom_eq_zero
+#print axioms AlbertSequential.albert_fourAtom_trace_relation
+#print axioms AlbertSequential.allHistoryNullContract
+#print axioms AlbertSequential.calibrated_positive_instrument_word_error_le
+#print axioms AlbertSequential.complexRestrictionContract_holds
+#print axioms AlbertSequential.complexTripleContract_holds
+#print axioms AlbertSequential.complexWindow_laplace_integrand
+#print axioms AlbertSequential.complex_square_root_instrument_witness_bound
+#print axioms AlbertSequential.complexification_finiteDimensional
+#print axioms AlbertSequential.cor_fp_maxmixed
+#print axioms AlbertSequential.cor_fp_rank
+#print axioms AlbertSequential.cor_helly_geometric
+#print axioms AlbertSequential.cor_helly_operational_iff_unconditional
+#print axioms AlbertSequential.cor_helly_sharp
+#print axioms AlbertSequential.cor_helly_special
+#print axioms AlbertSequential.cyclicHilbertModel
+#print axioms AlbertSequential.cyclicHilbertModel_probability
+#print axioms AlbertSequential.exists_generatedCyclicJordanMap
+#print axioms AlbertSequential.exists_kraus_channel_factorization
+#print axioms AlbertSequential.exists_supported_sharpDilation
+#print axioms AlbertSequential.finiteGram_iff_finiteRealModel
+#print axioms AlbertSequential.fixedSAtomSum_lower
+#print axioms AlbertSequential.fixedSConstructedWitness
+#print axioms AlbertSequential.fixedSConstructedWitness_forces_error
+#print axioms AlbertSequential.fixedSConstructedWitness_horizon
+#print axioms AlbertSequential.fixedSConstructedWitness_model_nonnegative
+#print axioms AlbertSequential.fixedSConstructedWitness_native_le
+#print axioms AlbertSequential.fourPointInvariant_maximizerConfig
+#print axioms AlbertSequential.fourPoint_zero_c6_representation
+#print axioms AlbertSequential.fpDoublePair1
+#print axioms AlbertSequential.fpOmega1
+#print axioms AlbertSequential.fpOverlap
+#print axioms AlbertSequential.fpTriangle
+#print axioms AlbertSequential.frameClassicalWordProbability_eq
+#print axioms AlbertSequential.frameMemory_card
+#print axioms AlbertSequential.hasSequentialEffectLift_orbit_corner
+#print axioms AlbertSequential.hasSequentialEffectLift_reflection
+#print axioms AlbertSequential.jordanHom_map_quadratic
+#print axioms AlbertSequential.jordanHom_map_triple
+#print axioms AlbertSequential.jordanMul_slotElem01_slotElem12
+#print axioms AlbertSequential.lem_fiv_facts_a
+#print axioms AlbertSequential.lem_fiv_facts_b
+#print axioms AlbertSequential.lem_five_coord
+#print axioms AlbertSequential.lem_five_coord_gen
+#print axioms AlbertSequential.lem_five_helly
+#print axioms AlbertSequential.lem_five_line
+#print axioms AlbertSequential.lem_five_sub
+#print axioms AlbertSequential.lem_fp_DeltaWmax
+#print axioms AlbertSequential.lemma_A_degenerate
+#print axioms AlbertSequential.lemma_A_generate_four
+#print axioms AlbertSequential.lemma_A_generate_three
+#print axioms AlbertSequential.lemma_A_normal
+#print axioms AlbertSequential.lemma_A_normal_nondegenerate
+#print axioms AlbertSequential.lemma_A_three
+#print axioms AlbertSequential.lemma_A_window_generated
+#print axioms AlbertSequential.lemma_A_zero_of_factor
+#print axioms AlbertSequential.lemma_A_zero_of_quat
+#print axioms AlbertSequential.localUnit_volume_eq_half_reverse
+#print axioms AlbertSequential.localUnit_volume_square
+#print axioms AlbertSequential.maximizerConfig_traces
+#print axioms AlbertSequential.mutuallyUnbiasedFrames_qutrit_word_statistics
+#print axioms AlbertSequential.nativeOrbitSpan_iff_generated
+#print axioms AlbertSequential.nativeReachableIdealityObligations
+#print axioms AlbertSequential.native_CP_dimension_at_least_six
+#print axioms AlbertSequential.native_positive_zero_pairing_support
+#print axioms AlbertSequential.native_reachable_certainty_ideality
+#print axioms AlbertSequential.native_reachable_sharpness
+#print axioms AlbertSequential.pentadDrop_generated_finrank
+#print axioms AlbertSequential.pentadF_generatesAlbert
+#print axioms AlbertSequential.pentadF_isAtom
+#print axioms AlbertSequential.prop_Dacal_poly
+#print axioms AlbertSequential.prop_arity
+#print axioms AlbertSequential.prop_max
+#print axioms AlbertSequential.prop_windowdet
+#print axioms AlbertSequential.prop_windowdet_zero
+#print axioms AlbertSequential.proper_iff_special
+#print axioms AlbertSequential.purityResidual_threeHistories
+#print axioms AlbertSequential.quaternionic_square_root_instrument_witness_bound
+#print axioms AlbertSequential.quaternionification_finiteDimensional
+#print axioms AlbertSequential.rankThree_fourIdempotent_trace_relation
+#print axioms AlbertSequential.real_square_root_instrument_witness_bound
+#print axioms AlbertSequential.sparseFourConfigOct_fourPointInvariant
+#print axioms AlbertSequential.sparseFourConfigOct_traces
+#print axioms AlbertSequential.stationaryKraus_finite_menu_error_gap
+#print axioms AlbertSequential.stationaryKraus_global_iff_local_finite_menus
+#print axioms AlbertSequential.suppliedEmbeddingStateTransport
+#print axioms AlbertSequential.symmetricTripleDefect_primitive_decomposition
+#print axioms AlbertSequential.tetrahedronDiscriminant_eq_overlap_mul_fourPointInvariant
+#print axioms AlbertSequential.tetrahedronEngine
+#print axioms AlbertSequential.thm_fourpoint
+#print axioms AlbertSequential.thm_pentad_a
+#print axioms AlbertSequential.triangleDefect_primitive_decomposition

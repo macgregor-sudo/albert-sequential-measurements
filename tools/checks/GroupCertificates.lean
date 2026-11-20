@@ -1,0 +1,10 @@
+module
+
+import GroupCertificateModels
+open AlbertSequential.ReflectionCertificate
+#print axioms groupRing_squareIdentity_sound
+#print axioms evaluation_adjoint
+#print axioms evaluation_wordEffect
+#print axioms sound_on_algebraic_model
+#print axioms sound_on_hilbert_model
+#print axioms sound_on_quaternionic_model

@@ -677,13 +677,13 @@ private theorem windowProj_eq_of_tracePairing_eq (W : ComplexWindow) (y : Albert
 
 /-! ## Section 2: `lem:A:window` and `prop:windowdet` -/
 
-private theorem sparseFourConfigOct_zero (B₀ B₁ C₀ C₁ C₂ C₃ D₀ : ℝ) (X Y : Octonion) :
+theorem sparseFourConfigOct_zero (B₀ B₁ C₀ C₁ C₂ C₃ D₀ : ℝ) (X Y : Octonion) :
     sparseFourConfigOct B₀ B₁ C₀ C₁ C₂ C₃ D₀ X Y 0 = diagAtom 0 := by
   apply albert_ext <;>
     simp [sparseFourConfigOct, octDyad, diagAtom, octNormSq_scalar, octNormSq_zero,
       octonionConj_zero, octonionMul_zero_right]
 
-private theorem tripleDelta_normal_form (B₀ B₁ C₀ C₁ C₂ C₃ : ℝ) :
+theorem tripleDelta_normal_form (B₀ B₁ C₀ C₁ C₂ C₃ : ℝ) :
     tripleDelta
       (diagAtom 0)
       (octDyad ![octonionScalar B₀, octonionScalar B₁, 0])
@@ -1317,6 +1317,49 @@ theorem prop_windowdet_zero {p1 p2 p3 p4 : Albert}
                       (B₀ ^ 2 * B₁ ^ 4 * C₀ ^ 2 * D₀ ^ 2 * x₂ ^ 2 * y₄ ^ 2) * (C₂ ^ 2 * C₃ ^ 2) := by ring
                   rw [hfac, hC23, mul_zero]
 
+/-- A fourth atom overlaps at least one vertex of every nonzero window triangle. -/
+theorem tripleDelta_nonzero_some_overlap {p1 p2 p3 p4 : Albert}
+    (hp1 : IsAtom p1) (hp2 : IsAtom p2) (hp3 : IsAtom p3) (hp4 : IsAtom p4)
+    (hdel : tripleDelta p1 p2 p3 ≠ 0) :
+    0 < tracePairing p1 p4 ∨ 0 < tracePairing p2 p4 ∨ 0 < tracePairing p3 p4 := by
+  by_contra hnone
+  push Not at hnone
+  have hz1 : tracePairing p1 p4 = 0 := le_antisymm hnone.1 (tracePairing_atom_bounds hp1 hp4).1
+  have hz2 : tracePairing p2 p4 = 0 := le_antisymm hnone.2.1 (tracePairing_atom_bounds hp2 hp4).1
+  have hz3 : tracePairing p3 p4 = 0 := le_antisymm hnone.2.2 (tracePairing_atom_bounds hp3 hp4).1
+  rcases tripleDelta_atom_normal_exists p1 p2 p3 hp1 hp2 hp3 with hz |
+    ⟨g, B₀, B₁, C₀, C₁, C₂, C₃, _hB0, hB1, _hC0, _hC2, _hC3, _hBs, _hCs, hg0, hg1, hg2, hd⟩
+  · exact hdel hz
+  have hC3_ne : C₃ ≠ 0 := fun h => by
+    rw [h, zero_pow (by norm_num)] at hd; ring_nf at hd; exact hdel hd
+  let q4 := g.linearEquiv p4
+  have hq4_atom : IsAtom q4 := g.map_isAtom hp4
+  have hq4_d0 : q4.1 0 = 0 := by
+    rw [← tracePairing_diagAtom 0 q4, ← hg0, g.map_tracePairing]; exact hz1
+  obtain ⟨hq4_01, hq4_02⟩ := isAtom_zero_row0 hq4_atom hq4_d0
+  have hq4_d1 : q4.1 1 = 0 := by
+    have hp24 : tracePairing (g.linearEquiv p2) q4 = 0 := by
+      rw [g.map_tracePairing]; exact hz2
+    rw [hg1, tracePairing_eq_coords] at hp24
+    simp [octDyad, octNormSq_scalar, octNormSq_zero, octonionConj_zero, octonionMul_zero_right,
+      hq4_d0, hq4_01, hq4_02, octDot_zero_left, octDot_zero_right] at hp24
+    exact hp24.resolve_left hB1.ne'
+  have hq4_d2 : q4.1 2 = 1 := by
+    have htr := hq4_atom.2
+    rw [albertTrace, Fin.sum_univ_three, hq4_d0, hq4_d1] at htr
+    linarith
+  have hq4_12 : q4.2 2 = 0 := by
+    have hf := congrArg (fun x : Albert => x.1 0) (albertSharp_atom_eq_zero q4 hq4_atom)
+    simp only [albertSharp, albert_zero_fst, Matrix.cons_val_zero, hq4_d1, zero_mul,
+      zero_sub, neg_eq_zero] at hf
+    exact (octNormSq_eq_zero _).mp hf
+  have hp34 : tracePairing (g.linearEquiv p3) q4 = 0 := by
+    rw [g.map_tracePairing]; exact hz3
+  rw [hg2, tracePairing_eq_coords] at hp34
+  simp [octDyad, octNormSq_scalar, hq4_d0, hq4_d1, hq4_d2, hq4_01, hq4_02, hq4_12,
+    octDot_zero_right] at hp34
+  exact hC3_ne hp34
+
 /-- `prop:windowdet`: for ANY `ComplexWindow` `W` containing atoms `p₁, p₂, p₃` and ANY atom `p₄`,
 `𝒜(p₁, p₂, p₃, p₄) = Δ_W(p₁, p₂, p₃) * Re(det(P_W p₄))` (including `Δ_W = 0`). -/
 theorem prop_windowdet (W : ComplexWindow) {p1 p2 p3 p4 : Albert}
@@ -1330,44 +1373,7 @@ theorem prop_windowdet (W : ComplexWindow) {p1 p2 p3 p4 : Albert}
     exact prop_windowdet_zero hp1 hp2 hp3 hp4 hdel
   · obtain ⟨_hpos, _ho12, _ho13, _ho23, _hWex, hW_all⟩ :=
       lemma_A_window_generated hp1 hp2 hp3 hdel
-    have hsome : 0 < tracePairing p1 p4 ∨ 0 < tracePairing p2 p4 ∨ 0 < tracePairing p3 p4 := by
-      by_contra hnone
-      push Not at hnone
-      have hz1 : tracePairing p1 p4 = 0 := le_antisymm hnone.1 (tracePairing_atom_bounds hp1 hp4).1
-      have hz2 : tracePairing p2 p4 = 0 := le_antisymm hnone.2.1 (tracePairing_atom_bounds hp2 hp4).1
-      have hz3 : tracePairing p3 p4 = 0 := le_antisymm hnone.2.2 (tracePairing_atom_bounds hp3 hp4).1
-      rcases tripleDelta_atom_normal_exists p1 p2 p3 hp1 hp2 hp3 with hz |
-        ⟨g, B₀, B₁, C₀, C₁, C₂, C₃, _hB0, hB1, _hC0, _hC2, _hC3, _hBs, _hCs, hg0, hg1, hg2, hd⟩
-      · exact hdel hz
-      have hC3_ne : C₃ ≠ 0 := fun h => by
-        rw [h, zero_pow (by norm_num)] at hd; ring_nf at hd; exact hdel hd
-      let q4 := g.linearEquiv p4
-      have hq4_atom : IsAtom q4 := g.map_isAtom hp4
-      have hq4_d0 : q4.1 0 = 0 := by
-        rw [← tracePairing_diagAtom 0 q4, ← hg0, g.map_tracePairing]; exact hz1
-      obtain ⟨hq4_01, hq4_02⟩ := isAtom_zero_row0 hq4_atom hq4_d0
-      have hq4_d1 : q4.1 1 = 0 := by
-        have hp24 : tracePairing (g.linearEquiv p2) q4 = 0 := by
-          rw [g.map_tracePairing]; exact hz2
-        rw [hg1, tracePairing_eq_coords] at hp24
-        simp [octDyad, octNormSq_scalar, octNormSq_zero, octonionConj_zero, octonionMul_zero_right,
-          hq4_d0, hq4_01, hq4_02, octDot_zero_left, octDot_zero_right] at hp24
-        exact hp24.resolve_left hB1.ne'
-      have hq4_d2 : q4.1 2 = 1 := by
-        have htr := hq4_atom.2
-        rw [albertTrace, Fin.sum_univ_three, hq4_d0, hq4_d1] at htr
-        linarith
-      have hq4_12 : q4.2 2 = 0 := by
-        have hf := congrArg (fun x : Albert => x.1 0) (albertSharp_atom_eq_zero q4 hq4_atom)
-        simp only [albertSharp, albert_zero_fst, Matrix.cons_val_zero, hq4_d1, zero_mul,
-          zero_sub, neg_eq_zero] at hf
-        exact (octNormSq_eq_zero _).mp hf
-      have hp34 : tracePairing (g.linearEquiv p3) q4 = 0 := by
-        rw [g.map_tracePairing]; exact hz3
-      rw [hg2, tracePairing_eq_coords] at hp34
-      simp [octDyad, octNormSq_scalar, hq4_d0, hq4_d1, hq4_d2, hq4_01, hq4_02, hq4_12,
-        octDot_zero_right] at hp34
-      exact hC3_ne hp34
+    have hsome := tripleDelta_nonzero_some_overlap hp1 hp2 hp3 hp4 hdel
     have hperm_proof : ∀ (σ : Equiv.Perm (Fin 4)), σ 3 = 3 →
         let a := fun i : Fin 4 => (![p1, p2, p3, p4] : Fin 4 → Albert) (σ i)
         0 < tracePairing (a 0) (a 3) →

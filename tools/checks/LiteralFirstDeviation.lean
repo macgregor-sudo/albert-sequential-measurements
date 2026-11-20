@@ -1,0 +1,5 @@
+module
+
+import CompanionLeftMultiplicationEndpoint
+open AlbertSequential.NativeAnalysis
+#print axioms LeftModelNormalForm.literalFirstDeviation

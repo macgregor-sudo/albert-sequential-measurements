@@ -1952,6 +1952,130 @@ theorem fourPointOmegaPoly_eq_gram_det
   rw [mul_div_cancel₀ _ hab, mul_div_cancel₀ _ hac, mul_div_cancel₀ _ hbc,
     mul_div_cancel₀ _ hbc, mul_div_cancel₀ _ hac, mul_div_cancel₀ _ hab]
 
+theorem fpGramMatrixPoly_eq_octonion_gram (g1 g2 g3 : Octonion) :
+    fpGramMatrixPoly (octNormSq g1) (octNormSq g2) (octNormSq g3)
+      (octonionReal g1) (octonionReal g2) (octonionReal g3)
+      (octonionReal (octonionMul g1 (octonionConj g2)))
+      (octonionReal (octonionMul g1 g3))
+      (octonionReal (octonionMul g2 (octonionConj g3))) =
+      Matrix.of (fun k l : Fin 3 => octDot (![octIm g1, octIm g2, octIm g3] k) (![octIm g1, octIm g2, octIm g3] l)) := by
+  have hsplit_norm : ∀ g : Octonion, octNormSq g - (octonionReal g) ^ 2 = octDot (octIm g) (octIm g) := by
+    intro g
+    have h : g = octonionScalar (octonionReal g) + octIm g := by simp [octIm]
+    conv_lhs =>
+      arg 1
+      rw [← octDot_self, h, octDot_add_left, octDot_add_right, octDot_add_right,
+        octDot_scalar_octIm, octDot_comm (octIm g) (octonionScalar _), octDot_scalar_octIm,
+        octDot_scalar_left, octonionReal_scalar]
+    ring
+  have hsplit_conj : ∀ a b : Octonion,
+      octonionReal (octonionMul a (octonionConj b)) - octonionReal a * octonionReal b =
+        octDot (octIm a) (octIm b) := fun a b => by
+    have ha : a = octonionScalar (octonionReal a) + octIm a := by simp [octIm]
+    have hb : b = octonionScalar (octonionReal b) + octIm b := by simp [octIm]
+    conv_lhs =>
+      arg 1
+      change octDot a b
+      rw [ha, hb, octDot_add_left, octDot_add_right, octDot_add_right, octDot_scalar_octIm,
+        octDot_comm (octIm a) (octonionScalar _), octDot_scalar_octIm,
+        octDot_scalar_left, octonionReal_scalar]
+    ring
+  have hsplit_mul : ∀ a b : Octonion,
+      octonionReal a * octonionReal b - octonionReal (octonionMul a b) =
+        octDot (octIm a) (octIm b) := fun a b => by
+    rw [octonionReal_mul_split]; ring
+  ext k l
+  fin_cases k <;> fin_cases l <;>
+    simp only [fpGramMatrixPoly, Matrix.of_apply]
+  · exact hsplit_norm g1
+  · exact hsplit_conj g1 g2
+  · exact hsplit_mul g1 g3
+  · rw [octDot_comm]; exact hsplit_conj g1 g2
+  · exact hsplit_norm g2
+  · exact hsplit_conj g2 g3
+  · rw [octDot_comm]; exact hsplit_mul g1 g3
+  · rw [octDot_comm]; exact hsplit_conj g2 g3
+  · exact hsplit_norm g3
+
+theorem fpGramTriplePoly_eq_octonion_cross (g1 g2 g3 : Octonion) :
+    fpGramTriplePoly (octonionReal g1) (octonionReal g2) (octonionReal g3)
+      (octonionReal (octonionMul g1 (octonionConj g2)))
+      (octonionReal (octonionMul g1 g3))
+      (octonionReal (octonionMul g2 (octonionConj g3)))
+      (octonionReal (octonionMul (octonionMul g1 g3) (octonionConj g2))) =
+      octDot (octCross (octIm g1) (octIm g3)) (octIm g2) := by
+  let u1 := octIm g1
+  let u2 := octIm g2
+  let u3 := octIm g3
+  have hs1 : octonionReal (octonionMul (octonionMul g1 g3) (octonionConj g2)) =
+      octonionReal g1 * octonionReal g3 * octonionReal g2
+      - octonionReal g2 * octDot u1 u3
+      + octonionReal g1 * octDot u3 u2
+      + octonionReal g3 * octDot u1 u2
+      + octDot (octCross u1 u3) u2 := by
+    have hg1 : g1 = octonionScalar (octonionReal g1) + u1 := by simp [u1, octIm]
+    have hg2 : g2 = octonionScalar (octonionReal g2) + u2 := by simp [u2, octIm]
+    have hg3 : g3 = octonionScalar (octonionReal g3) + u3 := by simp [u3, octIm]
+    have hconj2 : octonionConj g2 = octonionScalar (octonionReal g2) - u2 := by
+      conv_lhs => rw [hg2]
+      rw [octonionConj_add, octonionConj_scalar, octConj_octIm]
+      abel
+    have hu13 : octonionMul u1 u3 = (-octDot u1 u3) • octonionScalar 1 + octCross u1 u3 := by
+      rw [octonionMul_imag_eq (octonionReal_octIm g1) (octonionReal_octIm g3), octOne_eq_scalar]
+    have hre_prod : octonionReal (octonionMul (octonionMul g1 g3) (octonionConj g2)) =
+        octonionReal (octonionMul g1 g3) * octonionReal (octonionConj g2) -
+        octDot (octIm (octonionMul g1 g3)) (octIm (octonionConj g2)) :=
+      octonionReal_mul_split _ _
+    have hsc_sub : ∀ a b : ℝ, octonionScalar (a - b) = octonionScalar a - octonionScalar b := by
+      intro a b
+      rw [sub_eq_add_neg, octonionScalar_add, octonionScalar_eq_smul (-b), octonionScalar_eq_smul b]
+      module
+    have hg13 : octonionMul g1 g3 =
+        octonionScalar (octonionReal g1 * octonionReal g3 - octDot u1 u3) +
+        (octonionReal g1 • u3 + octonionReal g3 • u1 + octCross u1 u3) := by
+      have hsc_neg : ∀ a : ℝ, octonionScalar (-a) = -octonionScalar a := by
+        intro a
+        rw [← neg_one_mul a, octonionScalar_eq_smul, octonionScalar_eq_smul a]
+        module
+      conv_lhs => rw [hg1, hg3]
+      rw [octonionMul_add_left, octonionMul_add_right, octonionMul_add_right,
+        octonionMul_scalar_left, octonionMul_scalar_left, octonionMul_scalar_right,
+        ← octonionScalar_smul, hu13, ← octonionScalar_smul, mul_one, hsc_sub, hsc_neg]
+      abel
+    have him13 : octIm (octonionMul g1 g3) =
+        octonionReal g1 • u3 + octonionReal g3 • u1 + octCross u1 u3 := by
+      rw [hg13, octIm_add, octIm_scalar, zero_add,
+        (octIm_eq_self_iff _).mpr (by
+          rw [octonionReal_add, octonionReal_add, octonionReal_smul, octonionReal_smul,
+            octonionReal_octIm, octonionReal_octIm, octonionReal_octCross]; ring)]
+    have him_c2 : octIm (octonionConj g2) = -u2 := by
+      rw [hconj2, octIm_sub, octIm_scalar, zero_sub, (octIm_eq_self_iff _).mpr (octonionReal_octIm g2)]
+    rw [hre_prod, octonionReal_conj, octonionReal_mul_split g1 g3, him13, him_c2,
+      octDot_neg_right, octDot_add_left, octDot_add_left, octDot_smul_left, octDot_smul_left]
+    change _ = _
+    dsimp only [u1, u2, u3]
+    ring
+  unfold fpGramTriplePoly
+  have him_conj : ∀ g : Octonion, octIm (octonionConj g) = -octIm g := fun g => by
+    have hg : g = octonionScalar (octonionReal g) + octIm g := by simp [octIm]
+    rw [octIm, octonionReal_conj]
+    conv_lhs => arg 1; rw [hg]
+    rw [octonionConj_add, octonionConj_scalar, octConj_octIm]
+    abel
+  rw [hs1, octonionReal_mul_split g1 g3]
+  have hc12 : octonionReal (octonionMul g1 (octonionConj g2)) =
+      octonionReal g1 * octonionReal g2 + octDot u1 u2 := by
+    rw [octonionReal_mul_split, octonionReal_conj, him_conj g2]
+    change octonionReal g1 * octonionReal g2 - octDot u1 (-u2) = _
+    rw [octDot_neg_right]; ring
+  have hc23 : octonionReal (octonionMul g2 (octonionConj g3)) =
+      octonionReal g2 * octonionReal g3 + octDot u2 u3 := by
+    rw [octonionReal_mul_split, octonionReal_conj, him_conj g3]
+    change octonionReal g2 * octonionReal g3 - octDot u2 (-u3) = _
+    rw [octDot_neg_right]; ring
+  rw [hc12, hc23, octDot_comm u3 u2]
+  ring
+
 theorem sparseFourConfigOct_fourPointInvariant
     (B0 B1 C0 C1 C2 C3 D0 : ℝ) (X Y : Octonion) :
     fourPointInvariant (sparseFourConfigOct B0 B1 C0 C1 C2 C3 D0 X Y) =
@@ -1979,126 +2103,8 @@ theorem sparseFourConfigOct_fourPointInvariant
     rw [fourPointOmegaPoly_det_poly B0 C0 D0]
     unfold fourPointInvariant
     rw [ho01, ho02, ho03, ho12, ho13, ho23, hR012, hR013, hR023, hR123, hω1, hω2, hω3]
-  let u1 := octIm g1
-  let u2 := octIm g2
-  let u3 := octIm g3
-  have hG_eq : fpGramMatrixPoly (octNormSq g1) (octNormSq g2) (octNormSq g3)
-      (octonionReal g1) (octonionReal g2) (octonionReal g3)
-      (octonionReal (octonionMul g1 (octonionConj g2)))
-      (octonionReal (octonionMul g1 g3))
-      (octonionReal (octonionMul g2 (octonionConj g3))) =
-      Matrix.of (fun k l : Fin 3 => octDot (![u1, u2, u3] k) (![u1, u2, u3] l)) := by
-    have hsplit_norm : ∀ g : Octonion, octNormSq g - (octonionReal g) ^ 2 = octDot (octIm g) (octIm g) := by
-      intro g
-      have h : g = octonionScalar (octonionReal g) + octIm g := by simp [octIm]
-      conv_lhs =>
-        arg 1
-        rw [← octDot_self, h, octDot_add_left, octDot_add_right, octDot_add_right,
-          octDot_scalar_octIm, octDot_comm (octIm g) (octonionScalar _), octDot_scalar_octIm,
-          octDot_scalar_left, octonionReal_scalar]
-      ring
-    have hsplit_conj : ∀ a b : Octonion,
-        octonionReal (octonionMul a (octonionConj b)) - octonionReal a * octonionReal b =
-          octDot (octIm a) (octIm b) := fun a b => by
-      have ha : a = octonionScalar (octonionReal a) + octIm a := by simp [octIm]
-      have hb : b = octonionScalar (octonionReal b) + octIm b := by simp [octIm]
-      conv_lhs =>
-        arg 1
-        change octDot a b
-        rw [ha, hb, octDot_add_left, octDot_add_right, octDot_add_right, octDot_scalar_octIm,
-          octDot_comm (octIm a) (octonionScalar _), octDot_scalar_octIm,
-          octDot_scalar_left, octonionReal_scalar]
-      ring
-    have hsplit_mul : ∀ a b : Octonion,
-        octonionReal a * octonionReal b - octonionReal (octonionMul a b) =
-          octDot (octIm a) (octIm b) := fun a b => by
-      rw [octonionReal_mul_split]; ring
-    ext k l
-    fin_cases k <;> fin_cases l <;>
-      simp only [fpGramMatrixPoly, Matrix.of_apply]
-    · exact hsplit_norm g1
-    · exact hsplit_conj g1 g2
-    · exact hsplit_mul g1 g3
-    · rw [octDot_comm]; exact hsplit_conj g1 g2
-    · exact hsplit_norm g2
-    · exact hsplit_conj g2 g3
-    · rw [octDot_comm]; exact hsplit_mul g1 g3
-    · rw [octDot_comm]; exact hsplit_conj g2 g3
-    · exact hsplit_norm g3
-  have hs_eq : fpGramTriplePoly (octonionReal g1) (octonionReal g2) (octonionReal g3)
-      (octonionReal (octonionMul g1 (octonionConj g2)))
-      (octonionReal (octonionMul g1 g3))
-      (octonionReal (octonionMul g2 (octonionConj g3)))
-      (octonionReal (octonionMul (octonionMul g1 g3) (octonionConj g2))) =
-      octDot (octCross u1 u3) u2 := by
-    have hs1 : octonionReal (octonionMul (octonionMul g1 g3) (octonionConj g2)) =
-        octonionReal g1 * octonionReal g3 * octonionReal g2
-        - octonionReal g2 * octDot u1 u3
-        + octonionReal g1 * octDot u3 u2
-        + octonionReal g3 * octDot u1 u2
-        + octDot (octCross u1 u3) u2 := by
-      have hg1 : g1 = octonionScalar (octonionReal g1) + u1 := by simp [u1, octIm]
-      have hg2 : g2 = octonionScalar (octonionReal g2) + u2 := by simp [u2, octIm]
-      have hg3 : g3 = octonionScalar (octonionReal g3) + u3 := by simp [u3, octIm]
-      have hconj2 : octonionConj g2 = octonionScalar (octonionReal g2) - u2 := by
-        conv_lhs => rw [hg2]
-        rw [octonionConj_add, octonionConj_scalar, octConj_octIm]
-        abel
-      have hu13 : octonionMul u1 u3 = (-octDot u1 u3) • octonionScalar 1 + octCross u1 u3 := by
-        rw [octonionMul_imag_eq (octonionReal_octIm g1) (octonionReal_octIm g3), octOne_eq_scalar]
-      have hre_prod : octonionReal (octonionMul (octonionMul g1 g3) (octonionConj g2)) =
-          octonionReal (octonionMul g1 g3) * octonionReal (octonionConj g2) -
-          octDot (octIm (octonionMul g1 g3)) (octIm (octonionConj g2)) :=
-        octonionReal_mul_split _ _
-      have hsc_sub : ∀ a b : ℝ, octonionScalar (a - b) = octonionScalar a - octonionScalar b := by
-        intro a b
-        rw [sub_eq_add_neg, octonionScalar_add, octonionScalar_eq_smul (-b), octonionScalar_eq_smul b]
-        module
-      have hg13 : octonionMul g1 g3 =
-          octonionScalar (octonionReal g1 * octonionReal g3 - octDot u1 u3) +
-          (octonionReal g1 • u3 + octonionReal g3 • u1 + octCross u1 u3) := by
-        have hsc_neg : ∀ a : ℝ, octonionScalar (-a) = -octonionScalar a := by
-          intro a
-          rw [← neg_one_mul a, octonionScalar_eq_smul, octonionScalar_eq_smul a]
-          module
-        conv_lhs => rw [hg1, hg3]
-        rw [octonionMul_add_left, octonionMul_add_right, octonionMul_add_right,
-          octonionMul_scalar_left, octonionMul_scalar_left, octonionMul_scalar_right,
-          ← octonionScalar_smul, hu13, ← octonionScalar_smul, mul_one, hsc_sub, hsc_neg]
-        abel
-      have him13 : octIm (octonionMul g1 g3) =
-          octonionReal g1 • u3 + octonionReal g3 • u1 + octCross u1 u3 := by
-        rw [hg13, octIm_add, octIm_scalar, zero_add,
-          (octIm_eq_self_iff _).mpr (by
-            rw [octonionReal_add, octonionReal_add, octonionReal_smul, octonionReal_smul,
-              octonionReal_octIm, octonionReal_octIm, octonionReal_octCross]; ring)]
-      have him_c2 : octIm (octonionConj g2) = -u2 := by
-        rw [hconj2, octIm_sub, octIm_scalar, zero_sub, (octIm_eq_self_iff _).mpr (octonionReal_octIm g2)]
-      rw [hre_prod, octonionReal_conj, octonionReal_mul_split g1 g3, him13, him_c2,
-        octDot_neg_right, octDot_add_left, octDot_add_left, octDot_smul_left, octDot_smul_left]
-      change _ = _
-      dsimp only [u1, u2, u3]
-      ring
-    unfold fpGramTriplePoly
-    have him_conj : ∀ g : Octonion, octIm (octonionConj g) = -octIm g := fun g => by
-      have hg : g = octonionScalar (octonionReal g) + octIm g := by simp [octIm]
-      rw [octIm, octonionReal_conj]
-      conv_lhs => arg 1; rw [hg]
-      rw [octonionConj_add, octonionConj_scalar, octConj_octIm]
-      abel
-    rw [hs1, octonionReal_mul_split g1 g3]
-    have hc12 : octonionReal (octonionMul g1 (octonionConj g2)) =
-        octonionReal g1 * octonionReal g2 + octDot u1 u2 := by
-      rw [octonionReal_mul_split, octonionReal_conj, him_conj g2]
-      change octonionReal g1 * octonionReal g2 - octDot u1 (-u2) = _
-      rw [octDot_neg_right]; ring
-    have hc23 : octonionReal (octonionMul g2 (octonionConj g3)) =
-        octonionReal g2 * octonionReal g3 + octDot u2 u3 := by
-      rw [octonionReal_mul_split, octonionReal_conj, him_conj g3]
-      change octonionReal g2 * octonionReal g3 - octDot u2 (-u3) = _
-      rw [octDot_neg_right]; ring
-    rw [hc12, hc23, octDot_comm u3 u2]
-    ring
+  have hG_eq := fpGramMatrixPoly_eq_octonion_gram g1 g2 g3
+  have hs_eq := fpGramTriplePoly_eq_octonion_cross g1 g2 g3
   rw [hfp, hG_eq, hs_eq, harvey_lawson_132 g1 g2 g3]
   -- Now reduce `octAssociator g1 g3 g2 = (B1 ^ 2 * C2 * C3) • octAssociator octI Y X`:
   have hassoc_red : octAssociator g1 g3 g2 = (B1 ^ 2 * C2 * C3) • octAssociator octI Y X := by

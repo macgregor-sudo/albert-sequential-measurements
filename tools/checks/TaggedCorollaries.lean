@@ -1,0 +1,12 @@
+module
+
+import TaggedDilationDefectCorollaries
+import TaggedDilationDefectSpectrum
+import FiveTest.ReflectionDepth
+open AlbertSequential.NativeAnalysis
+#print axioms exists_nativeSharp_instrument_26n_sub_seven
+#print axioms exists_nativeNoHalf_sharp_instrument_26n_sub_nine
+#print axioms exists_nativeFour_sharp_instrument_97
+#print axioms exists_nativeFour_mixed_sharp_instrument_95
+#print axioms AlbertSequential.FiveTest.reflectionDepth_no_hilbertModel
+#print axioms AlbertSequential.FiveTest.reflectionDepth_no_quaternionicModel

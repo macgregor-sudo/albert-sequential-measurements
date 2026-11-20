@@ -2,10 +2,11 @@
 
 This file accounts for each compared declaration of [`src/Challenge.lean`](../src/Challenge.lean) (namespace `AlbertChallenge`):
 what it says, which paper result it formalizes, the definitions it uses, and the known differences
-between the paper's statement and the Lean statement. It ends with the theorem map of the whole
-repository and the gap of each entry. Paper results are cited by their LaTeX label, prefixed "core"
-or "companion"; the [README](../README.md) gives their printed numbers and the status of every
-numbered statement.
+between the paper's statement and the Lean statement. Paper results are cited by their LaTeX label,
+prefixed "core" or "companion"; the [README](../README.md) gives their printed numbers and, in its
+status ledger, the declarations that prove every numbered statement, including the printed forms
+that the compared statements do not reach. [THEOREM-MAP.md](THEOREM-MAP.md) lists further
+declarations.
 
 ## Definitions used by the compared statements
 
@@ -86,7 +87,8 @@ Gaps: algebraic models are not covered (the development proves the inequality fo
 parameter `v`, so as stated the inequality may depend on `v`; the proof takes it from the
 universe-free `uniformMomentSeparator_generating_atoms`, so one inequality serves every universe. No value of `L`, `W`, `c` or `γ` is given; the paper
 gives none either. The real and complex cases name `ℝ` and `ℂ` rather than every `RCLike` field. Part
-(b) of `cor:bri:finite` is not formalized.
+(b) of `cor:bri:finite` is proved but not compared (`uniformHilbertSeparator_exceptionalWeight`,
+`exceptionalWeight_no_uniform_margin`).
 
 ### `seven_steps_exclude`
 
@@ -127,7 +129,9 @@ Paper: core "`L_min = 7`", in `thm:cer:uniform` and `prop:cer:universalsix`.
 Definitions: `ProjectiveRepresentation`, `QuaternionicRepresentation`, `wordsUpTo`.
 
 Gaps: carriers are restricted to `Type`, and algebraic models are not part of the set. The paper
-defines `L_min` without a universe restriction. `L = 0` is not in the set, since every representation
+defines `L_min` without a universe restriction; the development proves the same minimum for Hilbert
+spaces in every universe (`AlbertChallenge.Bridge.least_separating_length_all_universes`, not
+compared). `L = 0` is not in the set, since every representation
 matches the empty word.
 
 ### `fourPoint_criterion`
@@ -217,7 +221,10 @@ Gaps: (a) asks for some subalgebra containing the atoms rather than the generate
 by restriction), and "special" is witnessed by complex Hermitian matrices of finite size; the paper's
 "special" for a Euclidean Jordan algebra is the operator form (a Jordan algebra of self-adjoint
 operators on a complex Hilbert space). That a subalgebra special in the operator form is not `J`
-follows from `albertJordanHom_eq_zero`, which is not part of this statement. (b) is stronger than the
+follows from `albertJordanHom_eq_zero`, which is not part of this statement; the printed theorem with
+operator-form speciality is proved but not compared (`AlbertChallenge.Bridge.printed_albert_criterion`,
+and in every universe `AlbertChallenge.Bridge.proper_iff_hasClassIModel` and
+`nativeOperatorSpecial_iff_proper`). (b) is stronger than the
 printed (2) in two ways: `d` is `6` or `24`, and the quantifier order is "∃ `d`, ∃ projections, ∀ `ρ`"
 (only the density operator depends on the state), where the printed (2) lets the dimension depend on
 `ρ`. (c) is restricted to carriers in `Type` and also admits algebraic models, which the printed (3)
@@ -255,111 +262,3 @@ description of an atom as a minimal nonzero idempotent is not stated in that for
   word operators are self-adjoint, so this changes no word value.
 - The edge cases of each definition (zero spaces, `n = 0`, the empty word, `ρ` not a state) are
   listed in the README under "Scope of the formal statements".
-
-## Theorem map with gaps
-
-Each row names a paper result proved in the repository but not compared, its Lean declarations
-(without the prefix `AlbertSequential`; names beginning with `LemmaB` are in that top-level
-namespace; in a cell, a name without a dot after a dotted one has the same prefix), how the Lean
-statement relates to the printed one ("same", "different route", "narrower" or "different form", as in the README's status table) and, for narrower
-ones, what is missing. The twelve compared theorems are above. [MODULES.md](MODULES.md) locates every
-module.
-The [README](../README.md) gives the plain meaning of each row and the printed number of each label.
-
-| Paper label | Lean declaration(s) | Relation | What the Lean statement lacks |
-|---|---|---|---|
-| core `lem:set:support` | `native_positive_zero_pairing_support` | narrower | stated for `V = J` only |
-| core `def:ideal` | `PositiveInstruments.IsIdealTest` | narrower | finite positive forms only |
-| core `thm:ideal` | `PositiveInstruments.idealTest_iff_quadraticRepresentation` | narrower | part (b), on Hilbert spaces |
-| core `def:idealmodel` | `HilbertProjectiveData`, `QuaternionicProjectiveData`, `AlgebraicProjectiveData` | same | |
-| core `def:memorymodel` | `IsNormalizedFiniteCPModel`, `RealFiniteKrausModel` | same | |
-| core `thm:bridgeJ` | compared: `AlbertChallenge.albert_criterion`, `AlbertChallenge.no_representation_of_generates`, `AlbertChallenge.linear_separator_of_generates`; in the development's terms `AlbertChallenge.Bridge.albert_criterion_bridge`, `algebraicProjective_not_matches_generating_atoms`, `HilbertModelSeparation.uniformHilbertSeparator_generating_atoms`, `cor_helly_operational_if` | different form | see `albert_criterion` above: (2) stronger, (3) in `Type` with algebraic models admitted; (3) in any universe by theorem 1; operator-sense speciality by `albertJordanHom_eq_zero`; the assembly of the printed theorem is not a Lean declaration |
-| core, definition of atoms | `AlbertChallenge.isAtom_iff_primitive`, `NativeAnalysis.isAtom_iff_primitive` | same | see `isAtom_iff_primitive` above |
-| core `lem:bri:gns` | `cyclicHilbertModel`, `cyclicHilbertModel_probability` | same | |
-| core `lem:bri:null` | `allHistoryNullContract` | narrower | the null-set part only; the step from `E(X) = Z²`, `θ(X) = 0` and matching to the vanishing of `π(Z)π(P_t)Ω` is not part of this declaration |
-| core `lem:purity` | `purityResidual_threeHistories`, `NativeAnalysis.native_corner_long_probability` | narrower | the vanishing in `J` for an outcome that is an atom of `J`; the printed lemma allows an outcome primitive in the generated subalgebra |
-| core `lem:bri:lift` | `hasSequentialEffectLift_orbit_corner`, `hasSequentialEffectLift_reflection` | same | |
-| core `lem:bri:orbit` | `nativeOrbitSpan_iff_generated` | narrower | for tests that are atoms of `J`; the printed lemma allows tests primitive in the generated subalgebra |
-| core `prop:bri:eta` | `exists_generatedCyclicJordanMap` | narrower | gaps named in the core margin note |
-| core `lem:bri:state` | `FaithfulHermitianJordanEmbedding.exists_unique_positive_trace_representative`, `suppliedEmbeddingStateTransport` | narrower | an embedding must be supplied; general `V` |
-| core `prop:field` | `HilbertProjectiveData.complexExtensionModel_probability`, `HilbertProjectiveData.quaternionExtensionModel_probability`, `cyclicHilbertModel_probability`, `HilbertProjectiveData.cyclicHilbert_finite`, `QuaternionicProjectiveData.cyclicHilbert_finite_of_real`, `complexification_finiteDimensional`, `quaternionification_finiteDimensional` | narrower | parts (b), (c); in (a) each inclusion is a construction, the equalities of classes are not stated |
-| core `cor:bri:finite` | `HilbertModelSeparation.uniformHilbertSeparator_generating_atoms` | narrower | part (b) |
-| core `prop:three` | `complexTripleContract_holds` | different route | |
-| core `def:traces` | `fpOverlap`, `fpTriangle`, `fpDoublePair1`, `fpOmega1` and companions | same | |
-| core `prop:fp:tracerel` | `rankThree_fourIdempotent_trace_relation`, `albert_fourAtom_trace_relation` | narrower | general rank-three `V` |
-| core `thm:fourpoint` | `thm_fourpoint`, `lemma_A_normal_nondegenerate` | same | |
-| core `prop:windowdet` | `prop_windowdet`, `prop_windowdet_zero`, `lemma_A_window_generated` | same | |
-| core `cor:fp:rank` | `cor_fp_rank` | same | |
-| core `lem:fp:access` | `triangleDefect_primitive_decomposition`, `symmetricTripleDefect_primitive_decomposition` | narrower | the final composition |
-| core `thm:tetra` | `tetrahedronEngine` | narrower | the Hilbert-space form |
-| core `prop:Dacal` | `prop_Dacal_poly`, `tetrahedronDiscriminant_eq_overlap_mul_fourPointInvariant` | same | |
-| core `cor:fp:noideal` | `LengthSeven.Uniform.noideal_algebraic`, `noideal_hilbert`, `noideal_rightQuaternionic`, `FiveTest.cor_fp_noideal` | same | |
-| core `prop:max` | `prop_max`, `maximizerConfig_traces`, `fourPointInvariant_maximizerConfig` | same | |
-| core `lem:fp:DeltaWmax` | `lem_fp_DeltaWmax` | same | |
-| core `cor:fp:maxmixed` | `cor_fp_maxmixed` | same | |
-| core `thm:cer:uniform` | `LengthSeven.Uniform.uniform_lengthSeven_e3_algebraic`, `uniform_lengthSix_pA_algebraic`, `MatchingModels.lMin_eq_seven`, `Ends.uniform_b`, `Ends.uniform_b_pA` | narrower | `L_min` is taken over Hilbert spaces in `Type`; the exclusions hold in every universe; different route; (b) is proved with a finite witness set and no explicit `δ`; Lean adds a margin from `p_A` at length six |
-| core `prop:cer:universalsix` | `MatchingModels.prop_cer_universalsix_witness`, `prop_cer_universalsix_c12`, `lMin_eq_seven`, `no_classI_linearEq_le_six`, `no_classI_linearIneq_le_six` | narrower | `L_min` is taken over Hilbert spaces in `Type`; the exclusions hold in every universe; Lean also proves the inequality form |
-| core `cor:cer:everystate` | `BlockB.cor_cer_everystate`, `BlockB.everystate_lengthSeven_algebraic` | same | the bundle quantifies over carriers in `Type` |
-| core `lem:cer:recon` | `finiteGram_iff_finiteRealModel`, `AlgebraicProjectiveData.finiteGram` | different route | |
-| core `lem:cer:short` | `LengthSeven.WalkForm.shortRules_of_table`, `LengthSeven.lengthSeven_e3_rules` | same | |
-| core `lem:cer:tablemodel` | `LengthSeven.TableModel.tableModel`, `tableModel_lemmaB` | narrower | proved for the words of `𝒲₂₈` |
-| core `lem:cer:gram28` | `LengthSeven.LemmaA.lemmaA_of_gram28Hyp`, `lemmaA`, `LengthSeven.TableModel.tableModel` | narrower | proved for the words of `𝒲₂₈` |
-| core `lem:cer:gram7` | `LengthSeven.LemmaA.lemmaA` | narrower | the printed formulas are not stated |
-| core `lem:cer:negative` | `LemmaB.gram_Xi`, `LemmaB.Xi_mem_span_uhat`, `LemmaB.no_psd_realisation_traces` | different route | |
-| core `thm:cer:seven` | `BlockB.seven_M_e3_algebraic`, `seven_S_e3_algebraic`, `seven_M_pA_algebraic`, `seven_S_pA_algebraic` | different route | |
-| core `prop:horizon` | `MatchingModels.prop_cer_universalsix_c12`, `lMin_eq_seven` | narrower | a `ℂ¹²` model, not the equal mixture of `Q₊`, `Q₋` |
-| core, companion `thm:eleven` | `BlockB.thm_eleven_with_overlaps`, `BlockB.thm_eleven_full`, `Ends.Eleven.elevenBase_card`, `elevenBase_hist`, `BlockB.elevenUnion_card`, `MatchingModels.overlap_pos_lt_one_of_fourPoint_pos`, `BlockB.elevenLedgerWords_eq_elevenBase` | different form | the list is defined from an encoding of the 1,673 relation applications; the formal proof checks its count and length histogram; that this list is the list printed in the companion's appendix is not a Lean theorem |
-| core `prop:Dfails` | `MatchingModels.dfails_length_le_two`, `dfails_thirteen_traces`, `dfails_tetra_dtet`, `dfails_purity_defect`, `dfails_length_three_deviations` | same | |
-| core `prop:cer:noequality` | `AppF.prop_cer_noequality_a`, `MatchingModels.no_classI_linearEq_le_six` | narrower | parts (b), (c); in (a) projective equalities are defined by finite-dimensional real vector states and the list of equivalents reaches representations only through algebraic models in `Type` |
-| core `rem:cer:fivestep` | `HorizonFive.horizonFive_projectiveEquality`, `HorizonFive.horizonFiveClause` | same | the hypothesis is vanishing on real finite-dimensional representations with vector states, implied by being a projective equality |
-| core `prop:robust` | `FiniteRealWordFunctional.separation_forces_error` | narrower | the second assertion |
-| core `prop:cer:nearideal` | `calibrated_positive_instrument_word_error_le` | narrower | an abstract trace-norm setting |
-| core `lem:five:coord` | `lem_five_coord`, `lem_five_coord_gen` | same | |
-| core `thm:pentad` | `pentadF_isAtom`, `pentadF_generatesAlbert`, `pentadDrop_generated_finrank`, `thm_pentad_a`, `LengthSeven.Uniform.pentad_b_algebraic`, `FiveTest.thm_pentad_b` | same | |
-| core `lem:five:helly` | `lem_five_helly` | same | |
-| core `prop:arity` | `prop_arity` | same | |
-| core `cor:helly` | `cor_helly_geometric`, `cor_helly_special`, `cor_helly_sharp`, `AlbertChallenge.Bridge.cor_helly_classI`, `cor_helly_operational_iff_unconditional`, `cor_helly_operational_iff`, `albertUniformSeparation` | narrower | the operational sentence is stated for carriers in `Type`, with algebraic models admitted as representations and subfamilies indexed by injections `Fin k → Fin n`, `k ≤ 5` |
-| core `thm:cp69` | `NativeAnalysis.exists_nativeGeneral_real_simulation`, `nativeTaggedBlock_card` | same | |
-| core `cor:ins:nohalf` | `NativeAnalysis.exists_nativeNoHalf_real_simulation`, `exists_nativeFourIdempotent_mixed_instrument_68` | same | |
-| core `prop:ins:lower` | `native_CP_dimension_at_least_six`, `NativeAnalysis.exists_nativeFourIdempotent_mixed_instrument_68` | same | |
-| core `lem:ins:factor` | `exists_kraus_channel_factorization` | narrower | existence only, not the formula |
-| core `prop:ins:sharpdilation` | `exists_supported_sharpDilation` | narrower | the real clause in general |
-| core `cor:ins:sharpalbert` | `NativeAnalysis.exists_nativeSharp_instrument_2_17n_add_one`, `exists_nativeNoHalf_sharp_instrument_34n` | same | |
-| core `prop:markov` | `frameClassicalWordProbability_eq`, `frameMemory_card`, `mutuallyUnbiasedFrames_qutrit_word_statistics` | same | |
-| core `lem:A:slots` | `jordanMul_slotElem01_slotElem12` | narrower | parts (b), (c) |
-| core `lem:A:restrict` | `complexRestrictionContract_holds` | same | |
-| core `lem:A:three` | `lemma_A_three` | different route | |
-| core `lem:A:normal` | `lemma_A_normal`, `lemma_A_normal_nondegenerate` | different route | |
-| core `lem:A:Aform` | `sparseFourConfigOct_traces`, `sparseFourConfigOct_fourPointInvariant` | narrower | the forms `G`, `s` |
-| core `lem:A:degenerate` | `lemma_A_degenerate` | same | |
-| core `lem:A:zero` | `lemma_A_zero_of_factor`, `lemma_A_zero_of_quat` | narrower | part (a) |
-| core `lem:A:generate` | `lemma_A_generate_three`, `lemma_A_generate_four` | same | |
-| core `lem:A:window` | `lemma_A_window_generated`, `prop_windowdet_zero` | narrower | part (a) and `P_{gW} g = g P_W` |
-| core `lem:A:clifford` | `localUnit_volume_eq_half_reverse`, `localUnit_volume_square` | same | |
-| core `prop:cer:quatpair` | `MatchingModels.prop_cer_quatpair_a`, `prop_cer_quatpair_b`, `prop_cer_quatpair_c_line`, `prop_cer_universalsix_witness` | same | |
-| core `lem:five:sub` | `lem_five_sub` | same | |
-| core `lem:fiv:facts` | `lem_fiv_facts_a`, `lem_fiv_facts_b` | same | |
-| core `lem:five:line` | `lem_five_line` | same | |
-| core Definition F.1, corner relations | `CornerRelations` | same | |
-| core `lem:tet:corner` | `jordanHom_map_quadratic`, `jordanHom_map_triple` | narrower | the subalgebra `C`; maps on all of `J` only |
-| core `thm:tetra:algebraic` | `tetrahedronEngine` | same | |
-| core `cor:tet:special` | `albertJordanHom_eq_zero`, `proper_iff_special` | narrower | the case `C ≠ J` |
-| core `thm:tet:albert` | `albertJordanHom_eq_zero` | different route | |
-| core `thm:glennie` | `AppF.thm_glennie`, `thm_glennie_normSq`, `thm_glennie_perm`, `thm_glennie_eq_zero_iff`; values at `M`, `S`: `AppF.glennie_maximizer_value`, `glennie_fixedS_value`, `glennie_fixedS_ABD_C`, `glennie_fixedS_ACD_B`, `glennie_fixedS_BCD_A` | different form | `F` is defined as the sum of the nine placements of the polarisation of `ψ`; its identification with the coefficient `[s²t²u²]` is not a Lean theorem |
-| companion `lem:cer:sound` | `AlgebraicProjectiveData.evaluatedSquareIdentity_sound` | narrower | the identity is a hypothesis about its value in the given model, not a parsed identity in `ℝ[ℤ₂^{*n}]` (which implies it); the prefixed form |
-| companion `thm:cer:sevenrobust` | `BlockB.thm_cer_seven_b_M_algebraic`, `thm_cer_seven_b_S_algebraic`, `robustFunctionalM`, `robustFunctionalS`, `LengthSeven.Robust.counterT_M`, `counterT_S` | different form | Lean proves every printed property (support, values `−γ`, ℓ¹ bounds) for its own functional, assembled from an encoded certificate; that this is the functional of the appendix, and the appendix's clauses (i)–(iv) on its support, are not Lean theorems |
-| companion `prop:robust:sqrt` | `real_square_root_instrument_witness_bound`, `complex_square_root_instrument_witness_bound`, `quaternionic_square_root_instrument_witness_bound` | same | |
-| companion `prop:eq:five` | `HorizonFive.horizonFive_projectiveEquality`, `HorizonFive.horizonFiveClause` | same | as core `rem:cer:fivestep` |
-| companion `prop:so:kernel` | `AppF.red1_jordan`, `red1_injective`, `E2_jordanHom_kills_K`, `redq_jordan`, `redq_unit`, `redq_eq_zero_iff`, `AppF.Dq.instRing`, `AppF.E2_not_special` | narrower | the dimensions 18 and 45 |
-| companion `cor:so:residual` | `AppF.cor_so_residual`, `cor_so_residual_of_atoms`, `cor_so_residual_linearFunctional` | same | |
-| companion `lem:five:reflect` | `FiveTest.quad_lift` | narrower | the reflected quadruple only, in span form |
-| companion `thm:five:refl` | `FiveTest.thm_five_refl`, `LengthSeven.LemmaA.lemmaA_budget` | different route | |
-| companion `prop:five:short` | `FiveTest.five_short_p0`, `five_short_e3`, `Ends.five_short_b_exists`, `five_short_b_p0_exists` | same | the explicit value of the margin given after the proof is not formalized; Lean adds a margin from `p_0` at length ten |
-| companion `cor:five:minimum` | `MatchingModels.cor_five_minimum_p0_isLeast_classI`, `cor_five_minimum_e3_isLeast_classI` | narrower | `L_min` is taken over Hilbert spaces in `Type`; the exclusions hold in every universe |
-| companion `prop:ins:reachable` | `nativeReachableIdealityObligations`, `native_reachable_sharpness`, `native_reachable_certainty_ideality` | same | |
-| companion `prop:ins:compactness` | `stationaryKraus_global_iff_local_finite_menus`, `stationaryKraus_finite_menu_error_gap`, `stationaryKraus_finite_positive_error_gap`, `stationaryKrausRealization_iff_choi` | same | stated for Kraus realizations, equivalent to CP realizations by `stationaryKrausRealization_iff_choi` |
-| companion `lem:cer:h5:refl` | `HorizonFive.reflectionClassConsistency`, `HorizonFive.reflectionContraction` | same | |
-| companion `lem:cer:h5:lift` | `HorizonFive.recognitionThroughFivePos` | same | (`HorizonFive.not_recognitionThroughFive` refutes an internal form that allowed `n = 0`, not the printed lemma) |
-| companion `lem:cer:h5:seven` | `HorizonFive.transferThroughSeven` | same | |
-| companion `prop:windowlaw` | `complexWindow_laplace_integrand` | not formalized | only the deterministic identity behind its Laplace transform is proved |
-| companion `prop:cer:Seleven` | `fixedSConstructedWitness`, `fixedSConstructedWitness_model_nonnegative`, `fixedSConstructedWitness_horizon`, `fixedSConstructedWitness_native_le`, `fixedSConstructedWitness_forces_error` | different form | Lean builds the functional from its own encoding of the purity occurrences; that these are the occurrences of the companion's appendix, and that its words lie in the eleven-step lists, are not Lean theorems |

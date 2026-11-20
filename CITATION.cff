@@ -9,8 +9,8 @@ authors:
     given-names: "Robert R."
     orcid: "https://orcid.org/0009-0003-1734-8054"
 repository-code: "https://github.com/macgregor-sudo/albert-sequential-measurements"
-version: "v1.0.0"
-date-released: "2026-11-18"
+version: "2.0.0"
+date-released: "2026-11-20"
 license: Apache-2.0
 keywords:
   - Lean 4
@@ -20,9 +20,11 @@ keywords:
   - sequential measurements
   - Lüders rule
 abstract: >-
-  Lean 4 and Mathlib formalization of results of the papers "On sequential ideal measurements in the
+  Lean 4 and Mathlib formalization of the papers "On sequential ideal measurements in the
   exceptional Jordan algebra" and "Finite certificates for sequential measurements in the
-  exceptional Jordan algebra". The Albert algebra J = H3(O) is the 27-dimensional real Jordan
+  exceptional Jordan algebra", version 2. Every numbered statement of the first paper is proved, and
+  every numbered statement of the second except Remark 5.3, which is proved in part; twelve
+  statements are compared with a Mathlib-only statement file by Comparator. The Albert algebra J = H3(O) is the 27-dimensional real Jordan
   algebra of 3x3 Hermitian octonionic matrices. An atom is an idempotent of trace one (a pure
   state). Its ideal yes-no test updates a state by the Lueders rule, and a word of outcomes has as
   probability the trace of the updated, unnormalised state. If finitely many atoms generate J, from
@@ -36,8 +38,9 @@ abstract: >-
   generate J; its maximum is 4/19683, and when A = 0 every state has a representation on C^6. Three
   atoms never generate J, and every state has a representation on C^3. The atoms are exactly the
   primitive idempotents. Except for the adapted code listed in docs/ATTRIBUTION.md (declarations
-  adapted from Physlib, and modules adapted from the contributor's Palomar entry
-  PALOMAR-2026-10-16-000013), all mathematics, proofs, text and Lean code were produced by Claude
+  adapted from Physlib, modules adapted from the contributor's Palomar entry
+  PALOMAR-2026-10-16-000013, and composition-algebra modules adapted from
+  ehrlich-b/composition-algebras), all mathematics, proofs, text and Lean code were produced by Claude
   Fable 5.2, Claude Opus 5.5, GPT-6.2 Astra, GPT-6.2 Sol, Gemini Carbon and Gemini Hydrogen; no
   human has reviewed the mathematics.
 references:
@@ -65,10 +68,17 @@ references:
     repository-code: "https://github.com/leanprover-community/physlib"
     commit: "08a6c1b5b8e6db340547142c3f7047635128c786"
     license: Apache-2.0
+  - type: software
+    title: "composition-algebras (Palomar PALOMAR-2026-08-29-000018)"
+    authors: [{family-names: "Ehrlich", given-names: "Bryan"}]
+    repository-code: "https://github.com/ehrlich-b/composition-algebras"
+    commit: "98d4437ce1bfd8d042b8383e0cfe28ec3e595eee"
+    license: Apache-2.0
   - type: article
     title: "Finite certificates for sequential measurements in the exceptional Jordan algebra"
     authors: [{family-names: "MacGregor", given-names: "Robert R."}]
-    notes: "LaTeX source: companion/macgregor-finite-certificates.tex in the source archive of the Hexagon record hexagon:2611.00620."
+    version: "2"
+    notes: "Version 2. LaTeX source: companion/macgregor-finite-certificates.tex in the source archive of the Hexagon record hexagon:2611.00620; PDF attached to release v2.0.0 of the repository."
     license: CC-BY-4.0
 preferred-citation:
   type: article
@@ -77,4 +87,6 @@ preferred-citation:
     - family-names: "MacGregor"
       given-names: "Robert R."
   url: "https://hexagonmath.org/abs/2611.00620"
+  version: "2"
+  notes: "Version 2; PDF also attached to release v2.0.0 of the repository."
   license: CC-BY-4.0

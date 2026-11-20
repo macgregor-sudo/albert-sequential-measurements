@@ -1,0 +1,11 @@
+module
+
+import PrintedSlotLaws
+import TwoAlbertPurityFailure
+import LengthSeven.PrintedHilbertGram
+open AlbertSequential
+#print axioms cyclicSlot_product
+#print axioms cyclicSlot_extract
+#print axioms cyclicSlot_coefficientSubalgebra
+#print axioms TwoAlbert.pair_compression_not_scalar
+#print axioms LengthSeven.printedGram_of_H

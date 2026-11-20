@@ -1,0 +1,11 @@
+module
+
+import WindowProbabilityQuaternionicSample
+import WindowProbabilitySphere
+import PartnerVariance
+open AlbertSequential.WindowProbability
+#print axioms inducedComplexStateLaw_eq_partialTrace_Haar
+#print axioms complexGaussianSphereLaw_eq_HaarOrbit
+#print axioms projectedMatrix_quaternionicTwoColumnSampleLaw
+#print axioms ae_quaternionicTwoColumnSampleLaw_isAtom
+#print axioms AlbertSequential.PartnerVariance.partner_phi_squaredNorm

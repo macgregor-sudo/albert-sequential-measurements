@@ -1,0 +1,8 @@
+module
+
+import WindowProbabilityQuaternionicRelative
+
+open AlbertSequential.WindowProbability
+
+#check @quaternionicAmbientWindow_probability_law_of_iso
+#print axioms quaternionicAmbientWindow_probability_law_of_iso

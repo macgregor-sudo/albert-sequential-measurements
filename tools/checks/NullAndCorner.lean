@@ -1,0 +1,15 @@
+module
+
+import CyclicNullHistories
+import SubalgebraCornerTransport
+import ExplicitJordanState
+
+open AlbertSequential
+#check @cyclic_null_on_histories
+#print axioms cyclic_null_on_histories
+#print axioms cyclic_null_operator_of_matches
+#print axioms SubalgebraCorner.map_quad
+#print axioms SubalgebraCorner.map_triple
+#print axioms SubalgebraCorner.discriminant_annihilates_subalgebra_base
+#print axioms FaithfulHermitianJordanEmbedding.explicit_state_all_words
+#print axioms FaithfulHermitianJordanEmbedding.explicit_state_subalgebra_words

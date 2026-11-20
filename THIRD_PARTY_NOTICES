@@ -34,5 +34,19 @@ Apache-2.0. Glennie/Native.lean is that entry's Glennie/Native.lean with two Nat
 removed, one proof shortened and the header replaced; the other fourteen Glennie/ modules descend from a later
 version of the same code.
 
+Composition algebras, https://github.com/ehrlich-b/composition-algebras, commit
+98d4437ce1bfd8d042b8383e0cfe28ec3e595eee (Palomar entry PALOMAR-2026-08-29-000018), Apache-2.0. Copyright holder as
+stated in the retained upstream headers: Bryan Ehrlich ("Copyright (c) 2026 Bryan Ehrlich. All rights
+reserved.", "Authors: Bryan Ehrlich"). The ten files under src/CompositionAlgebras (Composition/Defs, Composition/Doubling,
+Composition/CayleyDickson, Composition/Instances, Composition/Isomorphisms, Composition/Hurwitz,
+Composition/Classification, Octonions, OctonionTrace, OctonionModule) are adapted whole. The upstream archive SHA-256 is
+707a08e715beb738eae294b87d67ffd06d530819e9f6038132a2d49a48fb0852. The upstream copyright and author
+headers remain in all ten adapted Lean files under src/CompositionAlgebras. The exact upstream license is
+src/CompositionAlgebras/LICENSE, SHA-256 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.
+Upstream has no NOTICE file. Upstream used Lean v4.33.0 and Mathlib db584cd6d46c92f209a44c0f1c829460d327499d.
+The port uses Lean's module system, updates one deprecated Mathlib import in Octonions.lean and removes unused
+tactic combinators and simp arguments in Composition/Isomorphisms.lean. The project pins remain at v4.36.0.
+Thanks to Bryan Ehrlich.
+
 Mathlib v4.36.0 (commit fc4f59e577feb1a4956671bc04ac18aaaf8cd842, Apache-2.0) is a package dependency pinned in
 lakefile.toml and lake-manifest.json; no Mathlib file is copied.

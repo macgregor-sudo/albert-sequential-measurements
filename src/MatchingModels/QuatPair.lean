@@ -330,7 +330,8 @@ private theorem octIm_dot_mul (a b : Octonion) :
       octonionReal_scalar, octonionReal_octIm, octonionReal_octIm, him]
   ring
 
-private theorem M_mat_eq_octGram_of_data
+/-- Normalized triangle and pair cosines together with the corresponding imaginary Gram matrix. -/
+theorem octonion_holonomy_gram_data
     (o : Fin 4 → Fin 4 → ℝ) (ho_symm : ∀ i j, o i j = o j i)
     (R : Fin 4 → Fin 4 → Fin 4 → ℝ) (hR23 : ∀ i j k, R i j k = R i k j)
     (t : Fin 3 → ℝ) (B0 C0 D0 d e' f : ℝ)
@@ -347,7 +348,12 @@ private theorem M_mat_eq_octGram_of_data
     (hω2 : t 0 + t 2 - t 1 = B0 * D0 * octonionReal (octonionMul g1 g3))
     (hω3 : t 0 + t 1 - t 2 = B0 * C0 * octonionReal (octonionMul g2 (octonionConj g3))) :
     let w : Fin 3 → Octonion := ![(1 / d) • octIm g1, (1 / f) • octIm g3, (-1 / e') • octIm g2]
-    M_mat o R t = Matrix.of (fun i j => octDot (w i) (w j)) := by
+    M_mat o R t = Matrix.of (fun i j => octDot (w i) (w j)) ∧
+      tetraC1 o R = octonionReal g1 / d ∧ tetraC2 o R = octonionReal g3 / f ∧
+      tetraC3 o R = octonionReal g2 / e' ∧
+      tetraK12 o t = octonionReal (octonionMul g1 g3) / (d * f) ∧
+      tetraK23 o t = octonionReal (octonionMul g2 (octonionConj g3)) / (e' * f) ∧
+      tetraK31 o t = octonionReal (octonionMul g1 (octonionConj g2)) / (d * e') := by
   intro w
   have ho12_pos : 0 < o 1 2 := by rw [← hd2]; exact sq_pos_of_pos hd0
   have ho13_pos : 0 < o 1 3 := by rw [← he2]; exact sq_pos_of_pos he0
@@ -424,6 +430,7 @@ private theorem M_mat_eq_octGram_of_data
       octDot_comm (octIm g3) (octIm g2), ← hd23]
     field_simp [hf0.ne', he0.ne']; ring
   have hsym := (M_mat_isSymm o R t).eq
+  refine ⟨?_, hc1, hc2, hc3, hK12, hK23, hK31⟩
   ext i j
   refine forall_fin3 (fun i => ∀ j, M_mat o R t i j = (Matrix.of fun i j => octDot (w i) (w j)) i j)
     ?_ ?_ ?_ i j
@@ -512,13 +519,12 @@ theorem M_mat_posSemidef_of_atoms (p : Fin 4 → Albert) (hp : ∀ i, IsAtom (p 
   let d := Real.sqrt (fpOverlap p 1 2)
   let e' := Real.sqrt (fpOverlap p 1 3)
   let f := Real.sqrt (fpOverlap p 2 3)
-  have hM_gram := M_mat_eq_octGram_of_data (fpOverlap p) (fpOverlap_symm p)
+  have hM_gram := (octonion_holonomy_gram_data (fpOverlap p) (fpOverlap_symm p)
     (fpTriangle p) (fpTriangle_swap23 p) (tVec p) B0 C0 D0 d e' f
     hB0 hC0 hD0 (Real.sqrt_pos.mpr h12.1) (Real.sqrt_pos.mpr h13.1) (Real.sqrt_pos.mpr h23.1)
     g1 g2 g3 hp01 hp02 hp03 hp12 hp13 hp23
     (Real.sq_sqrt h12.1.le) (Real.sq_sqrt h13.1.le) (Real.sq_sqrt h23.1.le)
-    hpR012 hpR013 hpR023 hpω1 hpω2 hpω3
-  dsimp only at hM_gram
+    hpR012 hpR013 hpR023 hpω1 hpω2 hpω3).1
   rw [hM_gram]
   let w : Fin 3 → Octonion := ![(1 / d) • octIm g1, (1 / f) • octIm g3, (-1 / e') • octIm g2]
   apply Matrix.PosSemidef.of_dotProduct_mulVec_nonneg

@@ -1,0 +1,19 @@
+module
+
+import RepeatabilityRepair
+import MinimalSpectralFrameAssembly
+import MinimalSpectralDilation
+import GeneralEJAFramePeirce
+import OptimalSpectralFrames
+import GeneralEJALowRankClassification
+import ReducedSharpFrameCoordinates
+open AlbertSequential
+#print axioms binaryKraus_repeatability_repair
+#print axioms binaryKraus_noSwitch_of_native
+#print axioms binaryKraus_not_both_unobserved
+#print axioms pairedSharpDilationChannelFrame_of_partialFrames
+#print axioms reducedSpectralFrame_data
+#print axioms UnitalJordanProduct.framePeirce_spanning
+#print axioms exists_optimalSpectralFrames
+#print axioms UnitalJordanProduct.simple_factor_has_hermitian_embedding_of_rank_one_or_two
+#print axioms SharpDilationChannelFrame.reindexOutput

@@ -4062,14 +4062,18 @@ private theorem exists_quatEmbedding_superset_of_lt_top (F : OctSubalgebra)
         exact hF.ne (octSubalgebra_strict_gt_quatEmbedding_eq_top F φ hφ hlt)
       exact ⟨φ, hφ, by rw [heq_F]⟩
 
-theorem lem_five_sub (k : CDLevel) (B : NativeJordanSubalgebra)
+private theorem lem_five_sub_with_quaternionic_transport (k : CDLevel) (B : NativeJordanSubalgebra)
     (hBk : B.carrier < (H3Subalgebra k).carrier) :
   (∃ (q : Albert) (hq : IsAtom q), q ∈ (H3Subalgebra k).carrier ∧ B.carrier ≤ (lineSubalgebra q hq).carrier) ∨
   match k with
   | .R => False
   | .C => ∃ U : Matrix.unitaryGroup (Fin 3) ℂ, B.carrier ≤ (unitaryConjSubalgebraC U (H3Subalgebra .R)).carrier
-  | .H => ∃ Q : NativeJordanSubalgebra, Q.carrier ≤ (H3Subalgebra .H).carrier ∧
-            Nonempty (JordanSubalgebraIso (H3Subalgebra .C) Q) ∧ B.carrier ≤ Q.carrier
+  | .H => (∃ Q : NativeJordanSubalgebra, Q.carrier ≤ (H3Subalgebra .H).carrier ∧
+            Nonempty (JordanSubalgebraIso (H3Subalgebra .C) Q) ∧ B.carrier ≤ Q.carrier) ∧
+          ∃ ψ : JordanSubalgebraIso (H3Subalgebra .H) (H3Subalgebra .H),
+            ∀ x : Albert, x ∈ B.carrier →
+              ∃ hx : x ∈ (H3Subalgebra .H).carrier,
+                (ψ.toLinearEquiv ⟨x, hx⟩).val ∈ (H3Subalgebra .C).carrier
   | .O => ∃ Q : QuaternionicWindow, B.carrier ≤ Q.subalgebra.carrier := by
   by_cases hline : ∃ (q : Albert) (hq : IsAtom q), q ∈ (H3Subalgebra k).carrier ∧
       B.carrier ≤ (lineSubalgebra q hq).carrier
@@ -4122,8 +4126,12 @@ theorem lem_five_sub (k : CDLevel) (B : NativeJordanSubalgebra)
       have hmakeQ : ∀ (ψ : JordanSubalgebraIso (H3Subalgebra .H) (H3Subalgebra .H)),
           (∀ x : Albert, x ∈ B.carrier →
             ∃ hx : x ∈ (H3Subalgebra .H).carrier, (ψ.toLinearEquiv ⟨x, hx⟩).1 ∈ (H3Subalgebra .C).carrier) →
-          ∃ Q : NativeJordanSubalgebra, Q.carrier ≤ (H3Subalgebra .H).carrier ∧
-            Nonempty (JordanSubalgebraIso (H3Subalgebra .C) Q) ∧ B.carrier ≤ Q.carrier := by
+          (∃ Q : NativeJordanSubalgebra, Q.carrier ≤ (H3Subalgebra .H).carrier ∧
+            Nonempty (JordanSubalgebraIso (H3Subalgebra .C) Q) ∧ B.carrier ≤ Q.carrier) ∧
+          ∃ α : JordanSubalgebraIso (H3Subalgebra .H) (H3Subalgebra .H),
+            ∀ x : Albert, x ∈ B.carrier →
+              ∃ hx : x ∈ (H3Subalgebra .H).carrier,
+                (α.toLinearEquiv ⟨x, hx⟩).val ∈ (H3Subalgebra .C).carrier := by
         intro ψ hBψ
         have hCH : (H3Subalgebra .C).carrier ≤ (H3Subalgebra .H).carrier :=
           H3Subalgebra_mono (by simp)
@@ -4192,7 +4200,7 @@ theorem lem_five_sub (k : CDLevel) (B : NativeJordanSubalgebra)
               change (ψ.symm.toLinearEquiv ⟨jordanMul y₁.1 y₂.1,
                 (H3Subalgebra .H).product_mem _ (hCH y₁.2) _ (hCH y₂.2)⟩).1 = _
               rw [ψ.symm.map_jordan ⟨y₁.1, hCH y₁.2⟩ ⟨y₂.1, hCH y₂.2⟩]; rfl) }
-        exact ⟨Q, hQH, ⟨isoCQ⟩, hBQ⟩
+        exact ⟨⟨Q, hQH, ⟨isoCQ⟩, hBQ⟩, ⟨ψ, hBψ⟩⟩
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hfin_cases
       rcases hfin_cases with hfin1 | hfin2 | hfin4
       · have hFR : F.carrier = Submodule.span ℝ {octOne} :=
@@ -4324,6 +4332,24 @@ theorem lem_five_sub (k : CDLevel) (B : NativeJordanSubalgebra)
       refine ⟨g.linearEquiv x, hxQ0, ?_⟩
       change (autoSymm g).linearEquiv (g.linearEquiv x) = x
       exact g.linearEquiv.symm_apply_apply x
+
+theorem lem_five_sub (k : CDLevel) (B : NativeJordanSubalgebra)
+    (hBk : B.carrier < (H3Subalgebra k).carrier) :
+  (∃ (q : Albert) (hq : IsAtom q), q ∈ (H3Subalgebra k).carrier ∧ B.carrier ≤ (lineSubalgebra q hq).carrier) ∨
+  match k with
+  | .R => False
+  | .C => ∃ U : Matrix.unitaryGroup (Fin 3) ℂ, B.carrier ≤ (unitaryConjSubalgebraC U (H3Subalgebra .R)).carrier
+  | .H => ∃ Q : NativeJordanSubalgebra, Q.carrier ≤ (H3Subalgebra .H).carrier ∧
+            Nonempty (JordanSubalgebraIso (H3Subalgebra .C) Q) ∧ B.carrier ≤ Q.carrier
+  | .O => ∃ Q : QuaternionicWindow, B.carrier ≤ Q.subalgebra.carrier := by
+  rcases lem_five_sub_with_quaternionic_transport k B hBk with hline | hother
+  · exact Or.inl hline
+  · right
+    cases k
+    · exact hother
+    · exact hother
+    · exact hother.1
+    · exact hother
 
 private theorem not_iso_H3_le_lineSubalgebra (k : CDLevel) (B : NativeJordanSubalgebra)
     (hiso : Nonempty (JordanSubalgebraIso (H3Subalgebra k) B))
@@ -4477,6 +4503,27 @@ private theorem not_iso_H3_le_lineSubalgebra (k : CDLevel) (B : NativeJordanSuba
     change 0 = tracePairing q (e 0 + e 2) at h
     rw [tracePairing_add_right] at h; linarith
   rcases hχ_e_bool 0 with h0 | h1 <;> linarith
+
+/-- A complex-type subalgebra of the standard quaternionic algebra can
+be sent into the standard complex carrier by an automorphism of its own ambient algebra. -/
+theorem subalgebra_H3H_iso_H3C_ambient_conjugate (B : NativeJordanSubalgebra)
+    (hBH : B.carrier ≤ (H3Subalgebra .H).carrier)
+    (hiso : Nonempty (JordanSubalgebraIso (H3Subalgebra .C) B)) :
+    ∃ ψ : JordanSubalgebraIso (H3Subalgebra .H) (H3Subalgebra .H),
+      ∀ x : Albert, x ∈ B.carrier →
+        ∃ hx : x ∈ (H3Subalgebra .H).carrier,
+          (ψ.toLinearEquiv ⟨x, hx⟩).val ∈ (H3Subalgebra .C).carrier := by
+  obtain ⟨g⟩ := hiso
+  have hlt : B.carrier < (H3Subalgebra .H).carrier := by
+    refine lt_of_le_of_ne hBH ?_
+    intro he
+    have hdim := g.toLinearEquiv.finrank_eq
+    rw [he, finrank_H3Subalgebra, finrank_H3Subalgebra] at hdim
+    norm_num [CDLevel] at hdim
+  rcases lem_five_sub_with_quaternionic_transport .H B hlt with hline | hconj
+  · obtain ⟨q, hq, _, hb⟩ := hline
+    exact (not_iso_H3_le_lineSubalgebra .C B ⟨g⟩ q hq hb).elim
+  · exact hconj.2
 
 theorem subalgebra_iso_H3R_or_H3C_in_quatWindow (B : NativeJordanSubalgebra)
     (hiso : Nonempty (JordanSubalgebraIso (H3Subalgebra .R) B) ∨ Nonempty (JordanSubalgebraIso (H3Subalgebra .C) B)) :
@@ -5784,5 +5831,42 @@ theorem proper_iff_special (B : NativeJordanSubalgebra) :
     have h0 : albertTrace 0 = 0 := by simp [albertTrace, albert_zero_fst]
     rw [h3, h0] at htr
     norm_num at htr
+
+/-- Standardize a native frame using an automorphism of its own scalar-level algebra. -/
+theorem h3FrameToStandard (k : CDLevel) (F : NativeJordanFrame)
+    (hF : ∀ m : Fin 3, F.atom m ∈ (H3Subalgebra k).carrier) :
+    ∃ α : JordanSubalgebraIso (H3Subalgebra k) (H3Subalgebra k),
+      ∀ m : Fin 3, (α.toLinearEquiv ⟨F.atom m, hF m⟩).1 = diagAtom m :=
+  exists_h3Auto_frame k F hF
+
+/-- A complementary compression of an atom is a nonnegative multiple of an atom or zero. -/
+theorem complementAtomCompression {p a : Albert} (hp : IsAtom p) (ha : IsAtom a) :
+    let c := quadraticMap (albertUnit - p) a
+    jordanMul c c = (albertTrace c) • c ∧ 0 ≤ albertTrace c ∧ albertTrace c ≤ 1 ∧
+      jordanMul p c = 0 :=
+  compl_atom_compress_sq hp ha
+
+theorem mem_lineSubalgebra_diagAtom0 (x : Albert) :
+    x ∈ (lineSubalgebra (diagAtom 0) (diagAtom_isAtom 0)).carrier ↔
+      x.2 0 = 0 ∧ x.2 1 = 0 :=
+  mem_line_diag0_iff x
+
+/-- A unital copy of a standard simple rank-three algebra cannot lie in a line. -/
+theorem h3Copy_not_le_line (k : CDLevel) (B : NativeJordanSubalgebra)
+    (hiso : Nonempty (JordanSubalgebraIso (H3Subalgebra k) B)) (q : Albert) (hq : IsAtom q) :
+    ¬ B.carrier ≤ (lineSubalgebra q hq).carrier :=
+  not_iso_H3_le_lineSubalgebra k B hiso q hq
+
+/-- Every associative native octonion subalgebra lies in a quaternion copy. -/
+theorem OctSubalgebra.exists_quaternion_copy_of_associative (F : OctSubalgebra)
+    (hF : ∀ x ∈ F.carrier, ∀ y ∈ F.carrier, ∀ z ∈ F.carrier, octAssociator x y z = 0) :
+    ∃ φ : Quaternion ℝ →ₗ[ℝ] Octonion, IsQuatEmbedding φ ∧ F.carrier ≤ LinearMap.range φ := by
+  apply exists_quatEmbedding_superset_of_lt_top
+  apply lt_top_iff_ne_top.mpr
+  intro h
+  have hz := hF octI (by simp [h]) octJ (by simp [h]) octL (by simp [h])
+  have hn := octNormSq_octAssociator_I_J_L
+  rw [hz, (octNormSq_eq_zero 0).mpr rfl] at hn
+  norm_num at hn
 
 end AlbertSequential

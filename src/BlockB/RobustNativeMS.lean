@@ -934,4 +934,24 @@ theorem thm_cer_seven_b_S_quaternionic.{u} :
 #print axioms thm_cer_seven_b_S_hilbert
 #print axioms thm_cer_seven_b_S_quaternionic
 
+/-- An arbitrary checked tail functional remains nonnegative after the leading yes on A. -/
+theorem toE3Functional_nonneg_of_walkForm
+    {A : Type*} [Ring A] [StarRing A] [Module ℝ A] [IsScalarTower ℝ A A]
+    [SMulCommClass ℝ A A] [StarModule ℝ A]
+    (M : AlgebraicProjectiveData (Fin 4) A) (L : List (ℚ × Word Letter))
+    (h : ∀ hA : 0 < M.probability [(0, true)],
+      0 ≤ evalF (fun w => (WalkForm.ofAlgebraic M hA).normSq ((WalkForm.ofAlgebraic M hA).vec w)) L) :
+    0 ≤ (toE3Functional L).evaluate M.probability :=
+  toE3Functional_nonneg_algebraic M L h
+
+theorem toE3Functional_native_evaluation (p : Fin 4 → Albert) (hp : ∀ i, IsAtom (p i))
+    (L : List (ℚ × Word Letter)) :
+    (toE3Functional L).evaluate (nativeWordProbability p ((1/3 : ℝ) • albertUnit)) =
+      (1/3 : ℝ) * evalF (nativeWordProbability p (p 0)) L :=
+  toE3Functional_evaluate_native_e3 p hp L
+
+theorem toE3Functional_coefficientNormBound (L : List (ℚ × Word Letter)) :
+    (toE3Functional L).coefficientNorm ≤ (l1 L : ℝ) :=
+  toE3Functional_coefficientNorm_le L
+
 end AlbertSequential.BlockB
